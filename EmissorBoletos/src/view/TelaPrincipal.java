@@ -2,15 +2,18 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +61,35 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(btnNovoUsuario);
 		
 		JButton btnNovoArquivo = new JButton("");
+		btnNovoArquivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Procurar Arquivo");
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				
+				// Somente Planilhas
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Planilhas", "xls", "xlsx");
+				fileChooser.setFileFilter(filter);
+				
+				int retorno = fileChooser.showOpenDialog(fileChooser);
+				
+				if(retorno == 0) {
+					Object[] botoes = { "Sim", "Não" };
+					int resposta = JOptionPane.showOptionDialog(null,
+							"Deseja enviar o Arquivo?",
+							"Confirmação", // o título da janela
+							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+							botoes, botoes[0]);
+					
+					if(resposta == 0){
+						JOptionPane.showMessageDialog(null, "SIM");
+					}else if(resposta == 1){
+						JOptionPane.showMessageDialog(null, "NÃO");
+					}
+				}
+				
+			}
+		});
 		btnNovoArquivo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/nova_planilha.png")));
 		btnNovoArquivo.setBounds(349, 149, 175, 200);
 		contentPane.add(btnNovoArquivo);
@@ -87,5 +119,4 @@ public class TelaPrincipal extends JFrame {
 		lblUsuarioLogado.setBounds(34, 11, 267, 31);
 		contentPane.add(lblUsuarioLogado);
 	}
-
 }
