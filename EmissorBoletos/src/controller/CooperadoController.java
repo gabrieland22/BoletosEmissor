@@ -28,7 +28,7 @@ public class CooperadoController {
 	
 	public void remover(Cooperado cooperado) {
 		em.getTransaction().begin();
-		Query q = em.createQuery("DELETE Cooperado WHERE matricula = " + cooperado.getMatricula());
+		Query q = em.createQuery("DELETE Cooperado WHERE codigo = " + cooperado.getCodigo());
 		q.executeUpdate();
 		em.getTransaction().commit();
 		emf.close();

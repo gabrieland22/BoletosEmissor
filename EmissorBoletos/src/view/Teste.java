@@ -10,8 +10,8 @@ public class Teste {
 			
 		
 		Usuario usr = new Usuario();
-		usr.setNome("gabriel");
-		usr.setSenha(CriptografiaUtil.criptografar("novasenha"));
+		usr.setNome("Administrador");
+		usr.setSenha(CriptografiaUtil.criptografar("123"));
 	//	CooperadoController coopCon = new CooperadoController();		
 		UsuarioController usuCon = new UsuarioController();
 		usuCon.salvar(usr);
