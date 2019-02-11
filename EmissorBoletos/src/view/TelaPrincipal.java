@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import service.TelaPrincipalService;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -77,12 +81,20 @@ public class TelaPrincipal extends JFrame {
 					Object[] botoes = { "Sim", "Não" };
 					int resposta = JOptionPane.showOptionDialog(null,
 							"Deseja enviar o Arquivo?",
-							"Confirmação", // o título da janela
+							"Confirmação", 
 							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 							botoes, botoes[0]);
 					
 					if(resposta == 0){
-						JOptionPane.showMessageDialog(null, "SIM");
+						TelaPrincipalService telaPrincipalService = new TelaPrincipalService();
+						try {
+							FileInputStream fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
+							telaPrincipalService.importarArquivo(fis);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					}else if(resposta == 1){
 						JOptionPane.showMessageDialog(null, "NÃO");
 					}

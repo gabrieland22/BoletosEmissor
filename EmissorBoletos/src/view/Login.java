@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.UsuarioController;
 import service.CriptografiaUtil;
+import service.LoginService;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -30,10 +32,11 @@ public class Login extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-	
+		final LoginService loginService = new LoginService();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					loginService.iniciar();
 					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
