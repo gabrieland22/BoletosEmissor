@@ -34,7 +34,7 @@ public class Cooperado {
 	@Column
 	private String cpf;
 	@Column
-	private Date aniversário;
+	private Date aniversario;
 	@Column
 	private String telefone;
 	@Column
@@ -102,11 +102,12 @@ public class Cooperado {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public Date getAniversário() {
-		return aniversário;
+
+	public Date getAniversario() {
+		return aniversario;
 	}
-	public void setAniversário(Date aniversário) {
-		this.aniversário = aniversário;
+	public void setAniversario(Date aniversario) {
+		this.aniversario = aniversario;
 	}
 	public String getTelefone() {
 		return telefone;

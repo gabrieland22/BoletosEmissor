@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,11 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import service.TelaPrincipalService;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	FileInputStream fis;
 
 	/**
 	 * Launch the application.
@@ -87,13 +92,21 @@ public class TelaPrincipal extends JFrame {
 					
 					if(resposta == 0){
 						TelaPrincipalService telaPrincipalService = new TelaPrincipalService();
-						try {
-							FileInputStream fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
-							telaPrincipalService.importarArquivo(fis);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+							try {
+								fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							try {
+								telaPrincipalService.importarArquivo(fis);
+							} catch (InvalidFormatException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						
 					}else if(resposta == 1){
 						JOptionPane.showMessageDialog(null, "NÃO");
