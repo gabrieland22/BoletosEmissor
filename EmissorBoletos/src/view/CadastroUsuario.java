@@ -3,6 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,9 +20,6 @@ import javax.swing.border.EmptyBorder;
 import controller.UsuarioController;
 import model.Usuario;
 import service.CriptografiaUtil;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class CadastroUsuario extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -93,6 +93,7 @@ public class CadastroUsuario extends JFrame {
 					Usuario usr = new Usuario();
 					usr.setNome(txtNomeUsuario.getText());
 					usr.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
+					usr.setDataCriacao(new Date());
 					UsuarioController usuCon = new UsuarioController();
 					usuCon.salvar(usr);
 					JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);

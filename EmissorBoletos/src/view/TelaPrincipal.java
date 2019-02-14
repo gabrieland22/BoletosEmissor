@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import service.TelaPrincipalService;
+import service.TelaPrincipalBean;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame = new TelaPrincipal();
+					TelaPrincipal frame = new TelaPrincipal("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class TelaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal() {
+	public TelaPrincipal(String nomeUsuario) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 880, 540);
 		contentPane = new JPanel();
@@ -56,18 +56,7 @@ public class TelaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNovoUsuario = new JButton("");
-		btnNovoUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CadastroUsuario cadastroUsuarioTela = new CadastroUsuario();
-				cadastroUsuarioTela.setVisible(true);  
-				cadastroUsuarioTela.setLocation(300,300);  
-				cadastroUsuarioTela.setResizable(false);
-			}
-		});
-		btnNovoUsuario.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/novo_usuario.png")));
-		btnNovoUsuario.setBounds(103, 149, 175, 200);
-		contentPane.add(btnNovoUsuario);
+
 		
 		JButton btnNovoArquivo = new JButton("");
 		btnNovoArquivo.addActionListener(new ActionListener() {
@@ -91,7 +80,7 @@ public class TelaPrincipal extends JFrame {
 							botoes, botoes[0]);
 					
 					if(resposta == 0){
-						TelaPrincipalService telaPrincipalService = new TelaPrincipalService();
+						TelaPrincipalBean telaPrincipalService = new TelaPrincipalBean();
 							try {
 								fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
 							} catch (FileNotFoundException e1) {
@@ -116,7 +105,7 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		btnNovoArquivo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/nova_planilha.png")));
-		btnNovoArquivo.setBounds(349, 149, 175, 200);
+		btnNovoArquivo.setBounds(40, 401, 102, 90);
 		contentPane.add(btnNovoArquivo);
 		
 		JButton btnEnviarEmail = new JButton("");
@@ -124,24 +113,40 @@ public class TelaPrincipal extends JFrame {
 		btnEnviarEmail.setBounds(589, 149, 175, 200);
 		contentPane.add(btnEnviarEmail);
 		
-		JLabel lblNovoUsuario = new JLabel("Novo Usuário");
-		lblNovoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNovoUsuario.setBounds(140, 361, 102, 23);
-		contentPane.add(lblNovoUsuario);
+		JLabel lblUsuario = new JLabel("Usuários");
+		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblUsuario.setBounds(168, 360, 75, 23);
+		contentPane.add(lblUsuario);
 		
-		JLabel lblNovoArquivo = new JLabel("Novo Arquivo");
-		lblNovoArquivo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNovoArquivo.setBounds(395, 360, 102, 23);
-		contentPane.add(lblNovoArquivo);
+		JLabel lblClientes = new JLabel("Clientes");
+		lblClientes.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblClientes.setBounds(416, 360, 60, 23);
+		contentPane.add(lblClientes);
 		
-		JLabel lblEnviarEmail = new JLabel("Enviar Email");
+		JLabel lblEnviarEmail = new JLabel("Email");
 		lblEnviarEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblEnviarEmail.setBounds(632, 360, 102, 23);
+		lblEnviarEmail.setBounds(668, 360, 66, 23);
 		contentPane.add(lblEnviarEmail);
 		
-		JLabel lblUsuarioLogado = new JLabel("Usuário Logado Aqui");
-		lblUsuarioLogado.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		JLabel lblUsuarioLogado = new JLabel("Bem vindo(a) " + nomeUsuario);
+		lblUsuarioLogado.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblUsuarioLogado.setBounds(34, 11, 267, 31);
 		contentPane.add(lblUsuarioLogado);
+		
+		JButton btnClientes = new JButton("");
+		btnClientes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/clientes.png")));
+		btnClientes.setBounds(352, 149, 175, 200);
+		contentPane.add(btnClientes);
+		
+		JButton btnUsuarios = new JButton("");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UsuarioPesquisa telaUsuarioPesquisa = new UsuarioPesquisa();
+				telaUsuarioPesquisa.setVisible(true);
+			}
+		});
+		btnUsuarios.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/usuario.png")));
+		btnUsuarios.setBounds(116, 149, 175, 200);
+		contentPane.add(btnUsuarios);
 	}
 }

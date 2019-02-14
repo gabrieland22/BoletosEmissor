@@ -3,7 +3,7 @@ package service;
 import controller.UsuarioController;
 import model.Usuario;
 
-public class LoginService {
+public class LoginBean {
 
 	public void iniciar() {
 		UsuarioController usuCon = new UsuarioController();

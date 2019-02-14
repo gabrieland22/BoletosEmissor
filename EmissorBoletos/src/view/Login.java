@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.UsuarioController;
 import service.CriptografiaUtil;
-import service.LoginService;
+import service.LoginBean;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,7 +32,7 @@ public class Login extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		final LoginService loginService = new LoginService();
+		final LoginBean loginService = new LoginBean();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -91,7 +91,7 @@ public class Login extends JFrame {
 					JOptionPane.showMessageDialog(null, "Bem Vindo ao Sistema!", "Login", JOptionPane.INFORMATION_MESSAGE);
 					 
 					 dispose(); 
-			         TelaPrincipal telaPrincipal = new TelaPrincipal();  
+			         TelaPrincipal telaPrincipal = new TelaPrincipal(txtLogin.getText());  
 			         telaPrincipal.setVisible(true);  
 			         telaPrincipal.setLocation(300,300);  
 			         telaPrincipal.setResizable(false); 
