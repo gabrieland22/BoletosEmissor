@@ -15,8 +15,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import controller.CooperadoController;
-import model.Cooperado;
+import controller.ClienteController;
+import model.Cliente;
 
 
 public class TelaPrincipalBean {
@@ -32,11 +32,11 @@ public class TelaPrincipalBean {
         // Parte de importação das informações do arquivo aqui
         
         Iterator<Row> rowIterator = sheet.iterator();
-        Cooperado cooperado = null;
+        Cliente cooperado = null;
         Date dataExcel = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Long registro = 0L;
-        CooperadoController coopCon = new CooperadoController();
+        ClienteController coopCon = new ClienteController();
         
         while (rowIterator.hasNext()) {
         	Row row;
@@ -48,7 +48,7 @@ public class TelaPrincipalBean {
             }
         	
             
-            cooperado = new Cooperado();
+            cooperado = new Cliente();
             
             cooperado.setCodigo(row.getCell(0) != null && row.getCell(0).getStringCellValue() != null && !row.getCell(0).getStringCellValue().trim().equals("") ? row.getCell(0).getStringCellValue().trim() : "");
             cooperado.setNome(row.getCell(1) != null && row.getCell(1).getStringCellValue() != null && !row.getCell(1).getStringCellValue().trim().equals("") ? row.getCell(1).getStringCellValue().trim() : "");

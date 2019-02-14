@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_cooperado_envio")
-public class Cooperado {
+public class Cliente {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

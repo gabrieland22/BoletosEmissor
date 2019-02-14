@@ -40,7 +40,7 @@ public class UsuarioModel extends AbstractTableModel{
 		case 0:
 			return listUsu.get(linha).getNome();
 		case 1:
-			return listUsu.get(linha).getId();
+			return listUsu.get(linha).getDataCriacao();
 		}
 		return null;
 	}

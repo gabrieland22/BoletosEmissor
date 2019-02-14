@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.UsuarioFiltro;
 import controller.UsuarioModel;
+import service.UsuarioBean;
 
 public class UsuarioPesquisa extends JFrame {
 
@@ -25,6 +27,7 @@ public class UsuarioPesquisa extends JFrame {
 	private UsuarioModel model = new UsuarioModel();
 	private JTable tableUsuarios = new JTable();
 	private UsuarioFiltro filtro = new UsuarioFiltro();
+	private UsuarioBean usuarioBean = new UsuarioBean();
 
 	/**
 	 * Launch the application.
@@ -82,7 +85,11 @@ public class UsuarioPesquisa extends JFrame {
 			JButton btnPesquisar = new JButton("");
 			btnPesquisar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					if(usuarioBean.pesquisarAntes(filtro)) {
+						
+					}else {
+						JOptionPane.showMessageDialog(null, "Favor informar o nome.", "Campo Obrigatório", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			});
 			
@@ -107,6 +114,7 @@ public class UsuarioPesquisa extends JFrame {
 			txtNomePesquisa.setBounds(25, 71, 312, 20);
 			contentPane.add(txtNomePesquisa);
 			txtNomePesquisa.setColumns(10);
+			filtro.setNome(txtNomePesquisa.getText());
 			
 			JLabel lblNomePesquisa = new JLabel(" Nome ou Parte do Nome:");
 			lblNomePesquisa.setBounds(25, 48, 160, 14);

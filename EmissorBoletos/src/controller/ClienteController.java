@@ -7,26 +7,26 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import model.Cooperado;
+import model.Cliente;
 
-public class CooperadoController {
+public class ClienteController {
 	
 	EntityManagerFactory emf;
 	EntityManager em;
 	
-	public CooperadoController() {
+	public ClienteController() {
 		emf = Persistence.createEntityManagerFactory("pu");
 		em = emf.createEntityManager();
 	}
 	
-	public void salvar(Cooperado cooperado) {
+	public void salvar(Cliente cooperado) {
 		em.getTransaction().begin();
 		em.merge(cooperado);
 		em.getTransaction().commit();
 		emf.close();
 	}
 	
-	public void remover(Cooperado cooperado) {
+	public void remover(Cliente cooperado) {
 		em.getTransaction().begin();
 		Query q = em.createQuery("DELETE Cooperado WHERE codigo = " + cooperado.getCodigo());
 		q.executeUpdate();
@@ -34,10 +34,10 @@ public class CooperadoController {
 		emf.close();
 	}
 	
-	public List<Cooperado> listarCooperado(){
+	public List<Cliente> listarCooperado(){
 		em.getTransaction().begin();
 		Query consulta = em.createQuery("SELECT OBJ FROM Cooperado OBJ");
-		List<Cooperado> listaCooperado = new ArrayList<Cooperado>();
+		List<Cliente> listaCooperado = new ArrayList<Cliente>();
 		listaCooperado = consulta.getResultList();
 		em.getTransaction().commit();
 		emf.close();
