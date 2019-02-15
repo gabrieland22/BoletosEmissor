@@ -71,6 +71,23 @@ public class UsuarioController {
 		return listaUsuario;
 	}
 	
+	public Usuario recuperaUsuarioPorID(int id){
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" SELECT obj from Usuario obj ");
+		hql.append(" where obj.id = :id ");
+		
+		Query q = em.createQuery(hql.toString());
+		
+		q.setParameter("id", id);
+		
+		Usuario result = (Usuario) q.getSingleResult();
+		em.getTransaction().commit();
+		emf.close();
+		return result;
+	}
+	
 	public boolean verificaLogin(String nome, String senha) {
 		
 		StringBuilder hql = new StringBuilder();

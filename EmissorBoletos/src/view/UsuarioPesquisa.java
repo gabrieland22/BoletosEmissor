@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.UsuarioFiltro;
 import controller.UsuarioModel;
+import model.Usuario;
 
 public class UsuarioPesquisa extends JFrame {
 
@@ -131,7 +132,7 @@ public class UsuarioPesquisa extends JFrame {
 			btnEditarUsuario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(tableUsuarios.getSelectedRow() != -1) {
-						
+						editar();
 					}else {
 						JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -194,11 +195,18 @@ public class UsuarioPesquisa extends JFrame {
 	}
 	
 	public void editar() {
-		//Metodo para editar aqui.
+		Usuario usuario = new Usuario();
+		usuario = model.recueraUsuarioSelecionado(tableUsuarios.getSelectedRow());
+		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(usuario);
+		limpar();
+		cadastroUsuarioTela.setVisible(true);  
+		cadastroUsuarioTela.setLocation(300,300);  
+		cadastroUsuarioTela.setResizable(false);
+		
 	}
 	
 	public void novoUsuario() {
-		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario();
+		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(null);
 		limpar();
 		cadastroUsuarioTela.setVisible(true);  
 		cadastroUsuarioTela.setLocation(300,300);  

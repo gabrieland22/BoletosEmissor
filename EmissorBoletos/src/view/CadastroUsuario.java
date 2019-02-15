@@ -35,7 +35,7 @@ public class CadastroUsuario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroUsuario frame = new CadastroUsuario();
+					CadastroUsuario frame = new CadastroUsuario(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class CadastroUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CadastroUsuario() {
+	public CadastroUsuario(final Usuario usuario) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -73,6 +73,9 @@ public class CadastroUsuario extends JFrame {
 		txtNomeUsuario = new JTextField();
 		txtNomeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtNomeUsuario.setBounds(109, 92, 300, 22);
+		if(usuario != null) {
+			txtNomeUsuario.setText(usuario.getNome());
+		}
 		contentPane.add(txtNomeUsuario);
 		txtNomeUsuario.setColumns(10);
 		
@@ -90,14 +93,23 @@ public class CadastroUsuario extends JFrame {
 		btnSalvarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(salvarAntes()){
-					Usuario usr = new Usuario();
-					usr.setNome(txtNomeUsuario.getText());
-					usr.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
-					usr.setDataCriacao(new Date());
-					UsuarioController usuCon = new UsuarioController();
-					usuCon.salvar(usr);
-					JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
+					if(usuario == null) {
+						Usuario usr = new Usuario();
+						usr.setNome(txtNomeUsuario.getText());
+						usr.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
+						usr.setDataCriacao(new Date());
+						UsuarioController usuCon = new UsuarioController();
+						usuCon.salvar(usr);
+						JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+					}else {
+						UsuarioController usuCon = new UsuarioController();
+						usuario.setNome(txtNomeUsuario.getText());
+						usuario.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
+						usuCon.salvar(usuario);
+						JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+					}
 				}
 			}
 		});
@@ -150,7 +162,5 @@ public class CadastroUsuario extends JFrame {
 	public void setTxtNomeUsuario(JTextField txtNomeUsuario) {
 		this.txtNomeUsuario = txtNomeUsuario;
 	}
-	
-	
 
 }

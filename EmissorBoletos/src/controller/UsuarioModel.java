@@ -65,5 +65,12 @@ public class UsuarioModel extends AbstractTableModel{
 		listUsu.clear();
 		this.fireTableDataChanged();
 	}
+	
+	public Usuario recueraUsuarioSelecionado (int linha) {
+		Usuario usuario = new Usuario();
+		UsuarioController usuCon = new UsuarioController();
+		usuario = usuCon.recuperaUsuarioPorID(listUsu.get(linha).getId());
+		return usuario;
+	}
 
 }
