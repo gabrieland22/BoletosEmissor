@@ -143,4 +143,14 @@ public class CadastroUsuario extends JFrame {
 		return salvar;
 	}
 
+	public JTextField getTxtNomeUsuario() {
+		return txtNomeUsuario;
+	}
+
+	public void setTxtNomeUsuario(JTextField txtNomeUsuario) {
+		this.txtNomeUsuario = txtNomeUsuario;
+	}
+	
+	
+
 }

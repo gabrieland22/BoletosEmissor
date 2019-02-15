@@ -25,14 +25,14 @@ public class UsuarioController {
 		emf.close();
 	}
 	
-	public void remover(Usuario usuario) {
+	public void remover(int id) {
 		StringBuilder hql = new StringBuilder();
 		em.getTransaction().begin();
 		
-		hql.append(" DELETE obj from Usuario obj ");
-		hql.append(" where nome = :nome ");
-		Query q = em.createQuery(hql.toString());
-		q.setParameter("nome", usuario.getNome());
+		hql.append(" DELETE obj from tb_usuario obj ");
+		hql.append(" where obj.id = :id ");
+		Query q = em.createNativeQuery(hql.toString());
+		q.setParameter("id", id);
 		
 		q.executeUpdate();
 		em.getTransaction().commit();
@@ -46,6 +46,24 @@ public class UsuarioController {
 		
 		hql.append("SELECT obj from Usuario obj ");
 		Query q = em.createQuery(hql.toString());
+		
+		List<Usuario> listaUsuario = q.getResultList();
+		em.getTransaction().commit();
+		emf.close();
+		return listaUsuario;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> buscaPadrao(UsuarioFiltro filtro){
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" SELECT obj from Usuario obj ");
+		hql.append(" where lower(obj.nome) like lower (:nome) ");
+		
+		Query q = em.createQuery(hql.toString());
+		
+		q.setParameter("nome", "%"+ filtro.getNome() +"%");
 		
 		List<Usuario> listaUsuario = q.getResultList();
 		em.getTransaction().commit();
