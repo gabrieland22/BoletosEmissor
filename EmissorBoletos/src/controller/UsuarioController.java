@@ -65,6 +65,7 @@ public class UsuarioController {
 		
 		q.setParameter("nome", "%"+ filtro.getNome() +"%");
 		
+		
 		List<Usuario> listaUsuario = q.getResultList();
 		em.getTransaction().commit();
 		emf.close();
@@ -82,7 +83,14 @@ public class UsuarioController {
 		
 		q.setParameter("id", id);
 		
-		Usuario result = (Usuario) q.getSingleResult();
+		Usuario result = new Usuario();
+		try {
+			result = (Usuario) q.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		em.getTransaction().commit();
 		emf.close();
 		return result;
@@ -107,5 +115,27 @@ public class UsuarioController {
 		}else {
 			return false;
 		}
+	}
+	
+public Usuario recuperaUsuarioLogado(String nome, String senha) {
+		
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		hql.append(" SELECT obj from Usuario obj ");
+		hql.append(" where obj.nome = :nome and obj.senha = :senha ");
+		Query q = em.createQuery(hql.toString());
+				
+		q.setParameter("nome", nome);
+		q.setParameter("senha", senha);
+		
+		Usuario result = new Usuario();
+		try {
+			result = (Usuario) q.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		em.getTransaction().commit();
+		emf.close();
+		return result;
 	}
 }

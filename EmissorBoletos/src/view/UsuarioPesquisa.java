@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ public class UsuarioPesquisa extends JFrame {
 	private UsuarioModel model = new UsuarioModel();
 	private JTable tableUsuarios = new JTable();
 	private UsuarioFiltro filtro = new UsuarioFiltro();
+	private Usuario usuarioLogado;
 
 	/**
 	 * Launch the application.
@@ -35,7 +37,7 @@ public class UsuarioPesquisa extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UsuarioPesquisa frame = new UsuarioPesquisa();
+					UsuarioPesquisa frame = new UsuarioPesquisa(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,8 +49,9 @@ public class UsuarioPesquisa extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UsuarioPesquisa() {
+	public UsuarioPesquisa(Usuario usuLog) {
 		
+		usuarioLogado = usuLog;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 832, 489);
@@ -121,6 +124,7 @@ public class UsuarioPesquisa extends JFrame {
 			JLabel lblNomePesquisa = new JLabel(" Nome ou Parte do Nome:");
 			lblNomePesquisa.setBounds(25, 48, 160, 14);
 			contentPane.add(lblNomePesquisa);
+			tableUsuarios.setBackground(new Color(255, 255, 255));
 			
 			tableUsuarios.setBounds(54, 229, 725, 190);		
 			tableUsuarios.setModel(model);
@@ -132,7 +136,11 @@ public class UsuarioPesquisa extends JFrame {
 			btnEditarUsuario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(tableUsuarios.getSelectedRow() != -1) {
-						editar();
+						if(tableUsuarios.getSelectedRowCount() == 1) {
+							editar();
+						}else {
+							JOptionPane.showMessageDialog(null, "Para Editar favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -155,7 +163,7 @@ public class UsuarioPesquisa extends JFrame {
 						if(tableUsuarios.getSelectedRowCount() == 1) {
 							remover();
 						}else {
-						JOptionPane.showMessageDialog(null, "Para excluir favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Para Excluir favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}else {
 						JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
@@ -191,22 +199,29 @@ public class UsuarioPesquisa extends JFrame {
 	}
 	
 	public void remover() {
-		model.removeItemGrid(tableUsuarios.getSelectedRow());
+		if(usuarioLogado.getId() != 1 && tableUsuarios.getSelectedRow() == 0) {
+			JOptionPane.showMessageDialog(null, "Não é possível Excluir o usuário Administrador.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			model.removeItemGrid(tableUsuarios.getSelectedRow());
+		}
 	}
 	
 	public void editar() {
 		Usuario usuario = new Usuario();
 		usuario = model.recueraUsuarioSelecionado(tableUsuarios.getSelectedRow());
-		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(usuario);
-		limpar();
-		cadastroUsuarioTela.setVisible(true);  
-		cadastroUsuarioTela.setLocation(300,300);  
-		cadastroUsuarioTela.setResizable(false);
-		
+		if(usuarioLogado.getId() != 1 && usuario.getId() == 1) {
+			JOptionPane.showMessageDialog(null, "Não é possível Editar o usuário Administrador.", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+		}else {
+			CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(usuario, usuarioLogado);
+			limpar();
+			cadastroUsuarioTela.setVisible(true);  
+			cadastroUsuarioTela.setLocation(300,300);  
+			cadastroUsuarioTela.setResizable(false);
+		}
 	}
 	
 	public void novoUsuario() {
-		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(null);
+		CadastroUsuario cadastroUsuarioTela = new CadastroUsuario(null,usuarioLogado);
 		limpar();
 		cadastroUsuarioTela.setVisible(true);  
 		cadastroUsuarioTela.setLocation(300,300);  

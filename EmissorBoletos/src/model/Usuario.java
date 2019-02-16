@@ -21,8 +21,16 @@ public class Usuario {
 	private String nome;
 	@Column
 	private String senha;
+	@Column (name = "usuario_criacao")
+	private String usuarioCriacao;
 	@Column (name = "data_criacao")
 	private Date dataCriacao;
+	@Column (name = "usuario_alteracao")
+	private String usuarioAlteracao;
+	@Column (name = "data_alteracao")
+	private Date dataAlteracao;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -47,5 +55,24 @@ public class Usuario {
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
+	public String getUsuarioCriacao() {
+		return usuarioCriacao;
+	}
+	public void setUsuarioCriacao(String usuarioCriacao) {
+		this.usuarioCriacao = usuarioCriacao;
+	}
+	public String getUsuarioAlteracao() {
+		return usuarioAlteracao;
+	}
+	public void setUsuarioAlteracao(String usuarioAlteracao) {
+		this.usuarioAlteracao = usuarioAlteracao;
+	}
+	public Date getDataAlteracao() {
+		return dataAlteracao;
+	}
+	public void setDataAlteracao(Date dataAlteracao) {
+		this.dataAlteracao = dataAlteracao;
+	}
+	
 	
 }

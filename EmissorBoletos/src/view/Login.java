@@ -2,6 +2,8 @@ package view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,11 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.UsuarioController;
+import model.Usuario;
 import service.CriptografiaUtil;
 import service.LoginBean;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +27,7 @@ public class Login extends JFrame {
 	private JPasswordField txtSenha;
 	private JLabel logo;
 	private JButton btnEntrar;
+	private Usuario usuarioLogado;
 
 	/**
 	 * Launch the application.
@@ -89,12 +90,12 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(checkLogin(txtLogin.getText(), new String(txtSenha.getPassword()))) {
 					JOptionPane.showMessageDialog(null, "Bem Vindo ao Sistema!", "Login", JOptionPane.INFORMATION_MESSAGE);
-					 
-					 dispose(); 
-			         TelaPrincipal telaPrincipal = new TelaPrincipal(txtLogin.getText());  
+					
+			         TelaPrincipal telaPrincipal = new TelaPrincipal(usuarioLogado);  
 			         telaPrincipal.setVisible(true);  
 			         telaPrincipal.setLocation(300,300);  
-			         telaPrincipal.setResizable(false); 
+			         telaPrincipal.setResizable(false);
+			         dispose(); 
 				
 				}else {
 					JOptionPane.showMessageDialog(null, "Dados Inválidos!", "Informação" ,JOptionPane.WARNING_MESSAGE);
@@ -107,8 +108,13 @@ public class Login extends JFrame {
 	
 	}
 	
-	public boolean checkLogin (String login, String senha) {
+	public boolean checkLogin(String login, String senha) {
 		UsuarioController usuController = new UsuarioController();
-		return usuController.verificaLogin(login, CriptografiaUtil.criptografar(senha));
+		 if(usuController.verificaLogin(login, CriptografiaUtil.criptografar(senha))) {
+			 usuarioLogado = usuController.recuperaUsuarioLogado(login, CriptografiaUtil.criptografar(senha));
+			 return true;
+		 }else {
+			 return false;
+		 }
 	}
 }

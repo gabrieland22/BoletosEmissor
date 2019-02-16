@@ -14,6 +14,9 @@ public class LoginBean {
 			usr.setNome("Administrador");
 			usr.setDataCriacao(new Date());
 			usr.setSenha(CriptografiaUtil.criptografar("admboletos"));
+			usr.setUsuarioCriacao("Administrador");
+			usr.setUsuarioAlteracao("Administrador");
+			usr.setDataAlteracao(new Date());
 			usuCon.salvar(usr);
 		}
 	}

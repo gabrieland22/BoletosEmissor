@@ -35,7 +35,7 @@ public class CadastroUsuario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroUsuario frame = new CadastroUsuario(null);
+					CadastroUsuario frame = new CadastroUsuario(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class CadastroUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CadastroUsuario(final Usuario usuario) {
+	public CadastroUsuario(final Usuario usuario, final Usuario usuarioLogado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -97,7 +97,10 @@ public class CadastroUsuario extends JFrame {
 						Usuario usr = new Usuario();
 						usr.setNome(txtNomeUsuario.getText());
 						usr.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
+						usr.setUsuarioCriacao(usuarioLogado.getNome());
+						usr.setUsuarioAlteracao(usuarioLogado.getNome());
 						usr.setDataCriacao(new Date());
+						usr.setDataAlteracao(new Date());
 						UsuarioController usuCon = new UsuarioController();
 						usuCon.salvar(usr);
 						JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -106,6 +109,8 @@ public class CadastroUsuario extends JFrame {
 						UsuarioController usuCon = new UsuarioController();
 						usuario.setNome(txtNomeUsuario.getText());
 						usuario.setSenha(CriptografiaUtil.criptografar(txtSenhaUsuario.getText()));
+						usuario.setUsuarioAlteracao(usuarioLogado.getNome());
+						usuario.setDataAlteracao(new Date());
 						usuCon.salvar(usuario);
 						JOptionPane.showMessageDialog(null, "Usuário Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
 						dispose();

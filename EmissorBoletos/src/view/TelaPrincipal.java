@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import model.Usuario;
 import service.TelaPrincipalBean;
 
 public class TelaPrincipal extends JFrame {
@@ -36,7 +36,7 @@ public class TelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame = new TelaPrincipal("");
+					TelaPrincipal frame = new TelaPrincipal(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class TelaPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal(String nomeUsuario) {
+	public TelaPrincipal(final Usuario usuarioLogado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 880, 540);
 		contentPane = new JPanel();
@@ -128,9 +128,9 @@ public class TelaPrincipal extends JFrame {
 		lblEnviarEmail.setBounds(668, 360, 66, 23);
 		contentPane.add(lblEnviarEmail);
 		
-		JLabel lblUsuarioLogado = new JLabel("Bem vindo(a) " + nomeUsuario);
+		JLabel lblUsuarioLogado = new JLabel("Bem vindo(a) " + usuarioLogado.getNome());
 		lblUsuarioLogado.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblUsuarioLogado.setBounds(34, 11, 267, 31);
+		lblUsuarioLogado.setBounds(34, 11, 820, 31);
 		contentPane.add(lblUsuarioLogado);
 		
 		JButton btnClientes = new JButton("");
@@ -141,7 +141,7 @@ public class TelaPrincipal extends JFrame {
 		JButton btnUsuarios = new JButton("");
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UsuarioPesquisa telaUsuarioPesquisa = new UsuarioPesquisa();
+				UsuarioPesquisa telaUsuarioPesquisa = new UsuarioPesquisa(usuarioLogado);
 				telaUsuarioPesquisa.setVisible(true);
 			}
 		});
