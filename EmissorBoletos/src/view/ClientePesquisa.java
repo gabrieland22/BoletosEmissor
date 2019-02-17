@@ -13,12 +13,15 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ClientePesquisa extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNomeCliente;
-	private JTextField txtNumeroCPF;
+	private JTextField txtNomeClientePesquisa;
+	private JTextField txtNumeroCPFPesquisa;
+	private JTextField txtCodigoClientePesquisa;
 
 	/**
 	 * Launch the application.
@@ -53,13 +56,17 @@ public class ClientePesquisa extends JFrame {
 		contentPane.add(lblPesquisarCliente);
 		
 		JButton btnPesquisarCliente = new JButton("");
+		btnPesquisarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPesquisarCliente.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/pesquisar.png")));
-		btnPesquisarCliente.setBounds(53, 145, 48, 48);
+		btnPesquisarCliente.setBounds(45, 145, 48, 48);
 		contentPane.add(btnPesquisarCliente);
 		
 		JButton btnLimparCliente = new JButton("");
 		btnLimparCliente.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/Limpar.png")));
-		btnLimparCliente.setBounds(118, 145, 48, 48);
+		btnLimparCliente.setBounds(114, 145, 48, 48);
 		contentPane.add(btnLimparCliente);
 		
 		JButton btnNovoCliente = new JButton("");
@@ -68,11 +75,11 @@ public class ClientePesquisa extends JFrame {
 		contentPane.add(btnNovoCliente);
 		
 		JLabel label = new JLabel("Pesquisar");
-		label.setBounds(55, 193, 46, 14);
+		label.setBounds(47, 193, 46, 14);
 		contentPane.add(label);
 		
 		JLabel label_1 = new JLabel("Limpar");
-		label_1.setBounds(128, 193, 38, 14);
+		label_1.setBounds(124, 193, 38, 14);
 		contentPane.add(label_1);
 		
 		JLabel lblNovoCliente = new JLabel("Novo Cliente");
@@ -81,25 +88,64 @@ public class ClientePesquisa extends JFrame {
 		contentPane.add(lblNovoCliente);
 		
 		JScrollPane scrollPaneCliente = new JScrollPane((Component) null);
-		scrollPaneCliente.setBounds(65, 218, 718, 218);
+		scrollPaneCliente.setBounds(22, 218, 791, 218);
 		contentPane.add(scrollPaneCliente);
 		
-		txtNomeCliente = new JTextField();
-		txtNomeCliente.setColumns(10);
-		txtNomeCliente.setBounds(33, 64, 312, 20);
-		contentPane.add(txtNomeCliente);
+		txtNomeClientePesquisa = new JTextField();
+		txtNomeClientePesquisa.setColumns(10);
+		txtNomeClientePesquisa.setBounds(33, 59, 312, 20);
+		contentPane.add(txtNomeClientePesquisa);
 		
-		JLabel label_3 = new JLabel(" Nome ou Parte do Nome:");
-		label_3.setBounds(33, 41, 160, 14);
-		contentPane.add(label_3);
+		JLabel lblNomeClientePesquisa = new JLabel(" Nome ou Parte do Nome:");
+		lblNomeClientePesquisa.setBounds(33, 41, 160, 14);
+		contentPane.add(lblNomeClientePesquisa);
 		
-		txtNumeroCPF = new JTextField();
-		txtNumeroCPF.setColumns(10);
-		txtNumeroCPF.setBounds(34, 112, 160, 20);
-		contentPane.add(txtNumeroCPF);
+		txtNumeroCPFPesquisa = new JTextField();
+		txtNumeroCPFPesquisa.setColumns(10);
+		txtNumeroCPFPesquisa.setBounds(33, 101, 160, 20);
+		contentPane.add(txtNumeroCPFPesquisa);
 		
-		JLabel lblNumeroCpf = new JLabel("Numero CPF:");
-		lblNumeroCpf.setBounds(34, 89, 160, 14);
-		contentPane.add(lblNumeroCpf);
+		JLabel lblCPFClientePesquisa = new JLabel("Numero CPF:");
+		lblCPFClientePesquisa.setBounds(33, 83, 160, 14);
+		contentPane.add(lblCPFClientePesquisa);
+		
+		JButton btnEditarCliente = new JButton("");
+		btnEditarCliente.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/editarRegistro.png")));
+		btnEditarCliente.setBounds(251, 145, 48, 48);
+		contentPane.add(btnEditarCliente);
+		
+		JButton btnExcluirCliente = new JButton("");
+		btnExcluirCliente.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/deletarRegistro.png")));
+		btnExcluirCliente.setBounds(318, 145, 48, 48);
+		contentPane.add(btnExcluirCliente);
+		
+		JLabel lblEditarCliente = new JLabel("Editar");
+		lblEditarCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblEditarCliente.setBounds(261, 193, 48, 14);
+		contentPane.add(lblEditarCliente);
+		
+		JLabel lblExcluirCliente = new JLabel("Excluir");
+		lblExcluirCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblExcluirCliente.setBounds(328, 193, 38, 14);
+		contentPane.add(lblExcluirCliente);
+		
+		txtCodigoClientePesquisa = new JTextField();
+		txtCodigoClientePesquisa.setColumns(10);
+		txtCodigoClientePesquisa.setBounds(203, 101, 160, 20);
+		contentPane.add(txtCodigoClientePesquisa);
+		
+		JLabel lblCodigoClientePesquisa = new JLabel("Código");
+		lblCodigoClientePesquisa.setBounds(203, 83, 160, 14);
+		contentPane.add(lblCodigoClientePesquisa);
+		
+		JButton btnNovoArquivo = new JButton("");
+		btnNovoArquivo.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/novo_arquivo.png")));
+		btnNovoArquivo.setBounds(386, 145, 48, 48);
+		contentPane.add(btnNovoArquivo);
+		
+		JLabel lblNovoArquivo = new JLabel("Importar Arquivo");
+		lblNovoArquivo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNovoArquivo.setBounds(374, 193, 88, 14);
+		contentPane.add(lblNovoArquivo);
 	}
 }

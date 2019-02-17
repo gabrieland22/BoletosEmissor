@@ -73,12 +73,12 @@ public class UsuarioPesquisa extends JFrame {
 				}
 			});
 			btnNovoUsuario.setIcon(new ImageIcon(UsuarioPesquisa.class.getResource("/images/novo_usuario_mini.png")));
-			btnNovoUsuario.setBounds(164, 140, 48, 48);
+			btnNovoUsuario.setBounds(168, 140, 48, 48);
 			contentPane.add(btnNovoUsuario);
 			
 			JLabel lblNovoUsuario = new JLabel("Novo Usuário");
 			lblNovoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblNovoUsuario.setBounds(155, 188, 68, 14);
+			lblNovoUsuario.setBounds(159, 188, 68, 14);
 			contentPane.add(lblNovoUsuario);
 			
 			JButton btnPesquisar = new JButton("");
@@ -148,12 +148,12 @@ public class UsuarioPesquisa extends JFrame {
 				}
 			});
 			btnEditarUsuario.setIcon(new ImageIcon(UsuarioPesquisa.class.getResource("/images/editarRegistro.png")));
-			btnEditarUsuario.setBounds(231, 140, 48, 48);
+			btnEditarUsuario.setBounds(237, 140, 48, 48);
 			contentPane.add(btnEditarUsuario);
 			
 			JLabel lblEditarUsuario = new JLabel("Editar");
 			lblEditarUsuario.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblEditarUsuario.setBounds(241, 188, 48, 14);
+			lblEditarUsuario.setBounds(247, 188, 48, 14);
 			contentPane.add(lblEditarUsuario);
 			
 			JButton btnExcluirUsuario = new JButton("");
@@ -171,12 +171,12 @@ public class UsuarioPesquisa extends JFrame {
 				}
 			});
 			btnExcluirUsuario.setIcon(new ImageIcon(UsuarioPesquisa.class.getResource("/images/deletarRegistro.png")));
-			btnExcluirUsuario.setBounds(298, 140, 48, 48);
+			btnExcluirUsuario.setBounds(304, 140, 48, 48);
 			contentPane.add(btnExcluirUsuario);
 			
 			JLabel lblExcluirUsuario = new JLabel("Excluir");
 			lblExcluirUsuario.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblExcluirUsuario.setBounds(308, 188, 38, 14);
+			lblExcluirUsuario.setBounds(314, 188, 38, 14);
 			contentPane.add(lblExcluirUsuario);
 			
 	}

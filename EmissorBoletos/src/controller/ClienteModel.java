@@ -66,7 +66,7 @@ public class ClienteModel extends AbstractTableModel{
 	public void removeItemGrid(int linha) {
 		
 		ClienteController cliCon = new ClienteController();
-		usuCon.remover(listCli.get(linha).getId());
+		cliCon.remover(listCli.get(linha).getId());
 		this.listCli.remove(linha);
 		this.fireTableDataChanged();
 	}
@@ -79,7 +79,7 @@ public class ClienteModel extends AbstractTableModel{
 	public Cliente recueraClienteSelecionado (int linha) {
 		Cliente cliente = new Cliente();
 		ClienteController cliCon = new ClienteController();
-		cliente = cliCon.recuperaUsuarioPorID(listCli.get(linha).getId());
+		cliente = cliCon.recuperaClientePorID(listCli.get(linha).getId());
 		return cliente;
 	}
 
