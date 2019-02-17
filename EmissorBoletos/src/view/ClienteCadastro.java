@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Usuario;
+
 import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -27,7 +30,7 @@ public class ClienteCadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClienteCadastro frame = new ClienteCadastro();
+					ClienteCadastro frame = new ClienteCadastro(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +42,7 @@ public class ClienteCadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ClienteCadastro() {
+	public ClienteCadastro(final Usuario usuarioLogado) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 885, 489);
 		contentPane = new JPanel();

@@ -26,7 +26,7 @@ import service.TelaPrincipalBean;
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	FileInputStream fis;
+	
 
 	/**
 	 * Launch the application.
@@ -56,57 +56,6 @@ public class TelaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-
-		
-		JButton btnNovoArquivo = new JButton("");
-		btnNovoArquivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Procurar Arquivo");
-				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				
-				// Somente Planilhas
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Planilhas", "xls", "xlsx");
-				fileChooser.setFileFilter(filter);
-				
-				int retorno = fileChooser.showOpenDialog(fileChooser);
-				
-				if(retorno == 0) {
-					Object[] botoes = { "Sim", "Não" };
-					int resposta = JOptionPane.showOptionDialog(null,
-							"Deseja enviar o Arquivo?",
-							"Confirmação", 
-							JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-							botoes, botoes[0]);
-					
-					if(resposta == 0){
-						TelaPrincipalBean telaPrincipalService = new TelaPrincipalBean();
-							try {
-								fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
-							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							try {
-								telaPrincipalService.importarArquivo(fis);
-							} catch (InvalidFormatException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						
-					}else if(resposta == 1){
-						JOptionPane.showMessageDialog(null, "NÃO");
-					}
-				}
-				
-			}
-		});
-		btnNovoArquivo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/nova_planilha.png")));
-		btnNovoArquivo.setBounds(40, 401, 102, 90);
-		contentPane.add(btnNovoArquivo);
 		
 		JButton btnEnviarEmail = new JButton("");
 		btnEnviarEmail.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/enviar_emails.png")));
@@ -134,6 +83,12 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(lblUsuarioLogado);
 		
 		JButton btnClientes = new JButton("");
+		btnClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClientePesquisa telaClientePesquisa = new ClientePesquisa(usuarioLogado);
+				telaClientePesquisa.setVisible(true);
+			}
+		});
 		btnClientes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/clientes.png")));
 		btnClientes.setBounds(352, 149, 175, 200);
 		contentPane.add(btnClientes);

@@ -191,6 +191,7 @@ public class UsuarioPesquisa extends JFrame {
 	
 	public void limpar() {
 		txtNomePesquisa.setText("");
+		filtro.clear();
 		model.limparGrid();
 	}
 	
