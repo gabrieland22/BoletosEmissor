@@ -81,15 +81,16 @@ public class CadastroUsuario extends JFrame {
 		
 		JLabel lblSenhaUsuario = new JLabel("Senha*");
 		lblSenhaUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblSenhaUsuario.setBounds(53, 137, 46, 14);
+		lblSenhaUsuario.setBounds(53, 127, 46, 14);
 		contentPane.add(lblSenhaUsuario);
 		
 		txtSenhaUsuario = new JPasswordField();
-		txtSenhaUsuario.setBounds(110, 135, 164, 22);
+		txtSenhaUsuario.setBounds(110, 125, 164, 22);
 		contentPane.add(txtSenhaUsuario);
 		txtSenhaUsuario.setColumns(10);
 		
-		JButton btnSalvarUsuario = new JButton("Salvar");
+		JButton btnSalvarUsuario = new JButton("");
+		btnSalvarUsuario.setIcon(new ImageIcon(CadastroUsuario.class.getResource("/images/salvar.png")));
 		btnSalvarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(salvarAntes()){
@@ -118,32 +119,45 @@ public class CadastroUsuario extends JFrame {
 				}
 			}
 		});
-		btnSalvarUsuario.setBounds(34, 179, 89, 23);
+		btnSalvarUsuario.setBounds(31, 159, 48, 48);
 		contentPane.add(btnSalvarUsuario);
 		
-		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.addActionListener(new ActionListener() {
+		JButton btnLimparUsuarioCadastro = new JButton("");
+		btnLimparUsuarioCadastro.setIcon(new ImageIcon(CadastroUsuario.class.getResource("/images/Limpar.png")));
+		btnLimparUsuarioCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtNomeUsuario.setText("");
 				txtSenhaUsuario.setText("");
+				
 			}
 		});
-		btnLimpar.setBounds(177, 179, 89, 23);
-		contentPane.add(btnLimpar);
+		btnLimparUsuarioCadastro.setBounds(97, 158, 48, 48);
+		contentPane.add(btnLimparUsuarioCadastro);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
+		JButton btnCancelarUsuarioCadastro = new JButton("");
+		btnCancelarUsuarioCadastro.setIcon(new ImageIcon(CadastroUsuario.class.getResource("/images/cancelar.png")));
+		btnCancelarUsuarioCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(315, 179, 89, 23);
-		contentPane.add(btnCancelar);
+		btnCancelarUsuarioCadastro.setBounds(161, 159, 48, 48);
+		contentPane.add(btnCancelarUsuarioCadastro);
 		
-		JLabel lblCamposObrigatorios = new JLabel("Campos marcos com (*) são obrigatórios.");
+		JLabel lblCamposObrigatorios = new JLabel("Campos marcados com (*) são obrigatórios.");
 		lblCamposObrigatorios.setForeground(Color.RED);
 		lblCamposObrigatorios.setBounds(10, 237, 252, 14);
 		contentPane.add(lblCamposObrigatorios);
+		
+		JLabel lblSalvarUsuario = new JLabel("Salvar");
+		lblSalvarUsuario.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblSalvarUsuario.setBounds(36, 207, 46, 14);
+		contentPane.add(lblSalvarUsuario);
+		
+		JLabel lblLimparUsuarioCadastro = new JLabel("Limpar");
+		lblLimparUsuarioCadastro.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblLimparUsuarioCadastro.setBounds(102, 207, 46, 14);
+		contentPane.add(lblLimparUsuarioCadastro);
 	}
 	
 	public boolean salvarAntes(){

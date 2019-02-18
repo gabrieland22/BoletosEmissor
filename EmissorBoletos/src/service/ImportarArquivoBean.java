@@ -17,12 +17,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import controller.ClienteController;
 import model.Cliente;
+import model.Usuario;
 
 
-public class TelaPrincipalBean {
+public class ImportarArquivoBean {
 
 	@SuppressWarnings("resource")
-	public void importarArquivo(FileInputStream fis) throws InvalidFormatException, IOException{
+	public void importarArquivo(FileInputStream fis, Usuario usuarioLogado) throws InvalidFormatException, IOException{
 		
 		Workbook workbook = null; 
 		Sheet sheet = null;
@@ -34,6 +35,8 @@ public class TelaPrincipalBean {
         Iterator<Row> rowIterator = sheet.iterator();
         Cliente cooperado = null;
         Date dataExcel = null;
+        Date dataCriacao = null;
+        Date dataAlteracao = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Long registro = 0L;
         ClienteController coopCon = new ClienteController();
@@ -81,13 +84,17 @@ public class TelaPrincipalBean {
             cooperado.setTelefone(row.getCell(15) != null && row.getCell(15).getStringCellValue() != null && !row.getCell(15).getStringCellValue().trim().equals("") ? row.getCell(15).getStringCellValue().trim() : "");
             cooperado.setCelular(row.getCell(88) != null && row.getCell(88).getStringCellValue() != null && !row.getCell(88).getStringCellValue().trim().equals("") ? row.getCell(88).getStringCellValue().trim() : "");
             cooperado.setEmail(row.getCell(89) != null && row.getCell(89).getStringCellValue() != null && !row.getCell(89).getStringCellValue().trim().equals("") ? row.getCell(89).getStringCellValue().trim() : "");
+            cooperado.setUsuarioCriacao(usuarioLogado.getNome());
+            cooperado.setUsuarioAlteracao(usuarioLogado.getNome());
+            cooperado.setDataCriacao(new Date());
+            cooperado.setDataAlteracao(new Date());
             
             coopCon.salvar(cooperado);
             registro++;
             
         }
         
-        JOptionPane.showMessageDialog(null, "Planilha Salva com Sucesso!" + registro + "Foram Carregados", "", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Planilha Salva com Sucesso! " + registro + " Foram Carregados", "", JOptionPane.INFORMATION_MESSAGE);
         
 	}
 

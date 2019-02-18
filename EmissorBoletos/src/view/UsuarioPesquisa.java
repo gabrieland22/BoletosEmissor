@@ -97,10 +97,6 @@ public class UsuarioPesquisa extends JFrame {
 			btnPesquisar.setBounds(33, 140, 48, 48);
 			contentPane.add(btnPesquisar);
 			
-			JLabel lblPesquisar = new JLabel("Pesquisar");
-			lblPesquisar.setBounds(35, 188, 46, 14);
-			contentPane.add(lblPesquisar);
-			
 			JButton btnLimpar = new JButton("");	
 			btnLimpar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -110,10 +106,6 @@ public class UsuarioPesquisa extends JFrame {
 			btnLimpar.setIcon(new ImageIcon(UsuarioPesquisa.class.getResource("/images/Limpar.png")));
 			btnLimpar.setBounds(100, 140, 48, 48);
 			contentPane.add(btnLimpar);
-			
-			JLabel lblLimpar = new JLabel("Limpar");
-			lblLimpar.setBounds(110, 188, 38, 14);
-			contentPane.add(lblLimpar);
 			
 			txtNomePesquisa = new JTextField();
 			txtNomePesquisa.setBounds(25, 71, 312, 20);
@@ -178,6 +170,31 @@ public class UsuarioPesquisa extends JFrame {
 			lblExcluirUsuario.setFont(new Font("Tahoma", Font.PLAIN, 11));
 			lblExcluirUsuario.setBounds(314, 188, 38, 14);
 			contentPane.add(lblExcluirUsuario);
+			
+			JLabel lblPequisar = new JLabel("Pesquisar");
+			lblPequisar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblPequisar.setBounds(36, 188, 57, 14);
+			contentPane.add(lblPequisar);
+			
+			JLabel lblLimpar = new JLabel("Limpar");
+			lblLimpar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblLimpar.setBounds(110, 188, 38, 14);
+			contentPane.add(lblLimpar);
+			
+			JButton btnVoltar = new JButton("");
+			btnVoltar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnVoltar.setIcon(new ImageIcon(UsuarioPesquisa.class.getResource("/images/voltar.png")));
+			btnVoltar.setBounds(706, 140, 48, 48);
+			contentPane.add(btnVoltar);
+			
+			JLabel lblVoltar = new JLabel("Voltar");
+			lblVoltar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblVoltar.setBounds(716, 188, 38, 14);
+			contentPane.add(lblVoltar);
 			
 	}
 	

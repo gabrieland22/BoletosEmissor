@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import model.Cliente;
@@ -60,15 +61,28 @@ public class ClienteModel extends AbstractTableModel{
 	public void preencheGrid(ClienteFiltro filtro) {
 		ClienteController cliCon = new ClienteController();
 		listCli = cliCon.buscaPadrao(filtro);
-		this.fireTableDataChanged();
+		if(listCli != null && listCli.size() > 0) {
+			this.fireTableDataChanged();
+		}else {
+			JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!", "", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 	}
 	
 	public void removeItemGrid(int linha) {
 		
 		ClienteController cliCon = new ClienteController();
-		cliCon.remover(listCli.get(linha).getId());
-		this.listCli.remove(linha);
-		this.fireTableDataChanged();
+		Object[] botoes = { "Sim", "Não" };
+		int resposta = JOptionPane.showOptionDialog(null,
+				"Deseja remover o cliente?",
+				"Confirmação", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				botoes, botoes[0]);
+		if(resposta == 0) {
+			cliCon.remover(listCli.get(linha).getId());
+			this.listCli.remove(linha);
+			this.fireTableDataChanged();
+		}
 	}
 	
 	public void limparGrid() {

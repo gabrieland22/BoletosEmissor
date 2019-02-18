@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import model.Usuario;
-import service.TelaPrincipalBean;
+import service.ImportarArquivoBean;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;

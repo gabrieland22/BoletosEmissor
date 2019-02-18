@@ -27,7 +27,7 @@ import controller.ClienteFiltro;
 import controller.ClienteModel;
 import model.Cliente;
 import model.Usuario;
-import service.TelaPrincipalBean;
+import service.ImportarArquivoBean;
 
 public class ClientePesquisa extends JFrame {
 
@@ -111,14 +111,6 @@ public class ClientePesquisa extends JFrame {
 		btnNovoCliente.setBounds(184, 145, 48, 48);
 		contentPane.add(btnNovoCliente);
 		
-		JLabel label = new JLabel("Pesquisar");
-		label.setBounds(47, 193, 46, 14);
-		contentPane.add(label);
-		
-		JLabel label_1 = new JLabel("Limpar");
-		label_1.setBounds(124, 193, 38, 14);
-		contentPane.add(label_1);
-		
 		JLabel lblNovoCliente = new JLabel("Novo Cliente");
 		lblNovoCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNovoCliente.setBounds(178, 193, 68, 14);
@@ -138,7 +130,7 @@ public class ClientePesquisa extends JFrame {
 		contentPane.add(txtNomeClientePesquisa);
 		
 		JLabel lblNomeClientePesquisa = new JLabel(" Nome ou Parte do Nome:");
-		lblNomeClientePesquisa.setBounds(33, 41, 160, 14);
+		lblNomeClientePesquisa.setBounds(32, 41, 160, 14);
 		contentPane.add(lblNomeClientePesquisa);
 		
 		txtNumeroCPFPesquisa = new JTextField();
@@ -227,7 +219,7 @@ public class ClientePesquisa extends JFrame {
 							botoes, botoes[0]);
 					
 					if(resposta == 0){
-						TelaPrincipalBean telaPrincipalService = new TelaPrincipalBean();
+						ImportarArquivoBean importarArquivoBean = new ImportarArquivoBean();
 							try {
 								fis = new FileInputStream(fileChooser.getSelectedFile().getAbsoluteFile());
 							} catch (FileNotFoundException e1) {
@@ -235,7 +227,7 @@ public class ClientePesquisa extends JFrame {
 								e1.printStackTrace();
 							}
 							try {
-								telaPrincipalService.importarArquivo(fis);
+								importarArquivoBean.importarArquivo(fis,usuarioLogado);
 							} catch (InvalidFormatException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -244,8 +236,6 @@ public class ClientePesquisa extends JFrame {
 								e1.printStackTrace();
 							}
 						
-					}else if(resposta == 1){
-						JOptionPane.showMessageDialog(null, "NÃO");
 					}
 				}
 				
@@ -259,6 +249,31 @@ public class ClientePesquisa extends JFrame {
 		lblNovoArquivo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNovoArquivo.setBounds(374, 193, 88, 14);
 		contentPane.add(lblNovoArquivo);
+		
+		JLabel lblPesquisar = new JLabel("Pesquisar");
+		lblPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPesquisar.setBounds(47, 193, 48, 14);
+		contentPane.add(lblPesquisar);
+		
+		JLabel lblLimpar = new JLabel("Limpar");
+		lblLimpar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblLimpar.setBounds(124, 193, 50, 14);
+		contentPane.add(lblLimpar);
+		
+		JButton btnVoltar = new JButton("");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnVoltar.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/voltar.png")));
+		btnVoltar.setBounds(769, 145, 48, 48);
+		contentPane.add(btnVoltar);
+		
+		JLabel lblVoltar = new JLabel("Voltar");
+		lblVoltar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblVoltar.setBounds(779, 193, 38, 14);
+		contentPane.add(lblVoltar);
 	}
 	public boolean pesquisarAntes(ClienteFiltro filtro) {
 		boolean retorno = true;
@@ -283,7 +298,7 @@ public class ClientePesquisa extends JFrame {
 	}
 	
 	public void novoCliente() {
-		ClienteCadastro clienteCadastroTela = new ClienteCadastro(usuarioLogado);
+		ClienteCadastro clienteCadastroTela = new ClienteCadastro(null,usuarioLogado);
 		limpar();
 		clienteCadastroTela.setVisible(true);  
 		clienteCadastroTela.setLocation(300,300);  
@@ -293,7 +308,7 @@ public class ClientePesquisa extends JFrame {
 	public void editar() {
 		Cliente cliente = new Cliente();
 		cliente = model.recueraClienteSelecionado(tableClientes.getSelectedRow());
-			ClienteCadastro clienteCadastroTela = new ClienteCadastro(usuarioLogado);
+			ClienteCadastro clienteCadastroTela = new ClienteCadastro(cliente,usuarioLogado);
 			limpar();
 			clienteCadastroTela.setVisible(true);  
 			clienteCadastroTela.setLocation(300,300);  
