@@ -21,6 +21,7 @@ import controller.UsuarioController;
 import model.Cliente;
 import model.Usuario;
 import service.CriptografiaUtil;
+import java.awt.Toolkit;
 
 public class ClienteCadastro extends JFrame {
 
@@ -58,6 +59,8 @@ public class ClienteCadastro extends JFrame {
 	 * Create the frame.
 	 */
 	public ClienteCadastro(final Cliente cliente,final Usuario usuLog) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClienteCadastro.class.getResource("/images/logo_mini.png")));
+		setTitle("Envio de Boletos");
 		usuarioLogado = usuLog;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 885, 304);

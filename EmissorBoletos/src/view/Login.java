@@ -19,6 +19,8 @@ import controller.UsuarioController;
 import model.Usuario;
 import service.CriptografiaUtil;
 import service.LoginBean;
+import java.awt.Window.Type;
+import java.awt.Toolkit;
 
 public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -51,6 +53,8 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/images/logo_mini.png")));
+		setTitle("Envio de Boletos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 200, 726, 516);;
 		contentPane = new JPanel();

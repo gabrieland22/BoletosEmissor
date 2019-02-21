@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import controller.UsuarioFiltro;
 import controller.UsuarioModel;
 import model.Usuario;
+import java.awt.Toolkit;
 
 public class UsuarioPesquisa extends JFrame {
 
@@ -50,6 +51,8 @@ public class UsuarioPesquisa extends JFrame {
 	 * Create the frame.
 	 */
 	public UsuarioPesquisa(Usuario usuLog) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UsuarioPesquisa.class.getResource("/images/logo_mini.png")));
+		setTitle("Envio de Boletos");
 		
 		usuarioLogado = usuLog;
 		

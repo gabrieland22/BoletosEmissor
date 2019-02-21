@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import controller.UsuarioController;
 import model.Usuario;
 import service.CriptografiaUtil;
+import java.awt.Toolkit;
 
 public class CadastroUsuario extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -48,6 +49,8 @@ public class CadastroUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public CadastroUsuario(final Usuario usuario, final Usuario usuarioLogado) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CadastroUsuario.class.getResource("/images/logo_mini.png")));
+		setTitle("Envio de Boletos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

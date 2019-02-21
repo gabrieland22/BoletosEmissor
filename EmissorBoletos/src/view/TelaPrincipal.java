@@ -22,6 +22,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import model.Usuario;
 import service.ImportarArquivoBean;
+import java.awt.Toolkit;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +50,8 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal(final Usuario usuarioLogado) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/images/logo_mini.png")));
+		setTitle("Envio de Boletos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 880, 540);
 		contentPane = new JPanel();

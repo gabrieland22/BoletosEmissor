@@ -28,6 +28,7 @@ import controller.ClienteModel;
 import model.Cliente;
 import model.Usuario;
 import service.ImportarArquivoBean;
+import java.awt.Toolkit;
 
 public class ClientePesquisa extends JFrame {
 
@@ -61,6 +62,8 @@ public class ClientePesquisa extends JFrame {
 	 * Create the frame.
 	 */
 	public ClientePesquisa(Usuario usuLog) {
+		setTitle("Envio de Boletos");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ClientePesquisa.class.getResource("/images/logo_mini.png")));
 		usuarioLogado = usuLog;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 871, 485);

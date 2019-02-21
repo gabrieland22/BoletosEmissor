@@ -22,6 +22,7 @@ import controller.AgendadorController;
 import controller.AgendadorModel;
 import model.Agendador;
 import model.Usuario;
+import java.awt.Toolkit;
 
 public class AgendadorCadastro extends JFrame {
 
@@ -57,6 +58,8 @@ public class AgendadorCadastro extends JFrame {
 	 * Create the frame.
 	 */
 	public AgendadorCadastro(Usuario usuLog) {
+		setTitle("Envio de Boletos");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AgendadorCadastro.class.getResource("/images/logo_mini.png")));
 		
 		usuarioLogado = usuLog;
 		model.preencheGrid();
@@ -111,7 +114,7 @@ public class AgendadorCadastro extends JFrame {
 			tableAgendamento.setBackground(new Color(255, 255, 255));
 			tableAgendamento.setBounds(54, 229, 725, 190);
 			tableAgendamento.setModel(model);
-			JScrollPane scrollPaneAgendamento = new JScrollPane(tableAgendamento);
+			JScrollPane scrollPaneAgendamento = new JScrollPane();
 			scrollPaneAgendamento.setBounds(46, 213, 718, 78);
 			contentPane.add(scrollPaneAgendamento);
 			
@@ -156,7 +159,7 @@ public class AgendadorCadastro extends JFrame {
 			
 			JLabel lblRemoverAgendamento = new JLabel("Remover");
 			lblRemoverAgendamento.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblRemoverAgendamento.setBounds(242, 188, 38, 14);
+			lblRemoverAgendamento.setBounds(238, 188, 48, 14);
 			contentPane.add(lblRemoverAgendamento);
 			
 			JLabel lblSalvar = new JLabel("Salvar");
