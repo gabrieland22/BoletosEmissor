@@ -116,12 +116,12 @@ public class UsuarioPesquisa extends JFrame {
 			JLabel lblNomePesquisa = new JLabel(" Nome ou Parte do Nome:");
 			lblNomePesquisa.setBounds(25, 48, 160, 14);
 			contentPane.add(lblNomePesquisa);
-			tableUsuarios.setBackground(new Color(255, 255, 255));
 			
+			tableUsuarios.setBackground(new Color(255, 255, 255));
 			tableUsuarios.setBounds(54, 229, 725, 190);		
 			tableUsuarios.setModel(model);
 			JScrollPane pane = new JScrollPane(tableUsuarios);
-			pane.setBounds(45,213,718,218);
+			pane.setBounds(46, 213, 718, 218);
 			contentPane.add(pane);
 			
 			JButton btnEditarUsuario = new JButton("");

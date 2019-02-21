@@ -58,6 +58,12 @@ public class TelaPrincipal extends JFrame {
 		
 		
 		JButton btnEnviarEmail = new JButton("");
+		btnEnviarEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgendadorCadastro telaAgendadorCadastro = new AgendadorCadastro(usuarioLogado);
+				telaAgendadorCadastro.setVisible(true);
+			}
+		});
 		btnEnviarEmail.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/enviar_emails.png")));
 		btnEnviarEmail.setBounds(589, 149, 175, 200);
 		contentPane.add(btnEnviarEmail);
