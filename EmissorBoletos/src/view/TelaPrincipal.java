@@ -20,14 +20,18 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import controller.AgendadorController;
+import model.Agendador;
 import model.Usuario;
+import service.AgendamentoEmail;
 import service.ImportarArquivoBean;
 import java.awt.Toolkit;
 
 public class TelaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
+	private Agendador agend;
+	private AgendamentoEmail agendEmail;
 
 	/**
 	 * Launch the application.
@@ -50,6 +54,10 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal(final Usuario usuarioLogado) {
+		
+		verificaAgendamento();
+		
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/images/logo_mini.png")));
 		setTitle("Envio de Boletos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +71,7 @@ public class TelaPrincipal extends JFrame {
 		JButton btnEnviarEmail = new JButton("");
 		btnEnviarEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AgendadorCadastro telaAgendadorCadastro = new AgendadorCadastro(usuarioLogado);
+				AgendadorCadastro telaAgendadorCadastro = new AgendadorCadastro(usuarioLogado, agendEmail);
 				telaAgendadorCadastro.setVisible(true);
 			}
 		});
@@ -112,5 +120,14 @@ public class TelaPrincipal extends JFrame {
 		btnUsuarios.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/images/usuario.png")));
 		btnUsuarios.setBounds(116, 149, 175, 200);
 		contentPane.add(btnUsuarios);
+	}
+	
+	public void verificaAgendamento() {
+		AgendadorController agendCon = new AgendadorController();
+		agend = new Agendador();
+		agend = agendCon.recuperaAgendamentoAtivo();
+		if(agend != null) {
+		agendEmail = new AgendamentoEmail(Integer.parseInt(agend.getHora()), Integer.parseInt(agend.getMinuto()));
+		}
 	}
 }

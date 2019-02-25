@@ -22,13 +22,15 @@ import controller.AgendadorController;
 import controller.AgendadorModel;
 import model.Agendador;
 import model.Usuario;
+import service.AgendamentoEmail;
+
 import java.awt.Toolkit;
 
 public class AgendadorCadastro extends JFrame {
 
 	private JPanel contentPane;
 	private AgendadorModel model = new AgendadorModel();
-	private String[] listHoras = {"00","01","02","03","04","05","06","07","08","09","10","11","12,","13","14","15","16","17","18","19","20","21","22","23"};
+	private String[] listHoras = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 	private String[] listMinutos = {"00","01","02","03","04","05","06","07","08","09","10","11","12"
 	,"13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28"
 	,"29","30","31","32","33","34","35","36","37","38","39","40"
@@ -36,8 +38,9 @@ public class AgendadorCadastro extends JFrame {
 	,"51","52","53","54","55","56","57","58","59"};
 	private JTable tableAgendamento = new JTable();
 	private Usuario usuarioLogado;
-	JComboBox comboBoxHora = new JComboBox(listHoras);
-	JComboBox comboBoxMinuto = new JComboBox(listMinutos);
+	private AgendamentoEmail agendamentoEmail;
+	private JComboBox comboBoxHora = new JComboBox(listHoras);
+	private JComboBox comboBoxMinuto = new JComboBox(listMinutos);
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +48,7 @@ public class AgendadorCadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AgendadorCadastro frame = new AgendadorCadastro(null);
+					AgendadorCadastro frame = new AgendadorCadastro(null,null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,11 +60,12 @@ public class AgendadorCadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AgendadorCadastro(Usuario usuLog) {
+	public AgendadorCadastro(Usuario usuLog, AgendamentoEmail agendEmail) {
 		setTitle("Envio de Boletos");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AgendadorCadastro.class.getResource("/images/logo_mini.png")));
 		
 		usuarioLogado = usuLog;
+		agendamentoEmail = agendEmail;
 		model.preencheGrid();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,16 +83,7 @@ public class AgendadorCadastro extends JFrame {
 			JButton btnSalvar = new JButton("");
 			btnSalvar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-						AgendadorController agendCon = new AgendadorController();
-						Agendador agendador = agendCon.recuperaAgendamento();
-						agendador.setHora(comboBoxHora.getSelectedItem().toString());
-						agendador.setMinuto(comboBoxMinuto.getSelectedItem().toString());
-						agendador.setEnviarBoleto(true);
-						agendador.setDataCriacao(new Date());
-						agendador.setUsuarioCriacao(usuarioLogado.getNome());
-						agendCon.salvar(agendador);
-						model.preencheGrid();
-						JOptionPane.showMessageDialog(null, "Agendamento Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+						salvar();
 				}
 			});
 			
@@ -114,7 +109,7 @@ public class AgendadorCadastro extends JFrame {
 			tableAgendamento.setBackground(new Color(255, 255, 255));
 			tableAgendamento.setBounds(54, 229, 725, 190);
 			tableAgendamento.setModel(model);
-			JScrollPane scrollPaneAgendamento = new JScrollPane();
+			JScrollPane scrollPaneAgendamento = new JScrollPane(tableAgendamento);
 			scrollPaneAgendamento.setBounds(46, 213, 718, 78);
 			contentPane.add(scrollPaneAgendamento);
 			
@@ -216,6 +211,9 @@ public class AgendadorCadastro extends JFrame {
 	public void remover() {
 			model.removeAgendamento(tableAgendamento.getSelectedRow());
 			model.preencheGrid();
+			if(agendamentoEmail != null) {
+				agendamentoEmail.cancelarAgendamento();
+			}
 	}
 	
 	public void editar() {
@@ -223,6 +221,27 @@ public class AgendadorCadastro extends JFrame {
 		agendador = model.recueraAgendamentoSelecionado(tableAgendamento.getSelectedRow());
 		comboBoxMinuto.setSelectedItem(agendador.getMinuto());
 		comboBoxHora.setSelectedItem(agendador.getHora());
+	}
+	
+	public void salvar() {
+		AgendadorController agendCon = new AgendadorController();
+		Agendador agendador = agendCon.recuperaAgendamento();
+		agendador.setHora(comboBoxHora.getSelectedItem().toString());
+		agendador.setMinuto(comboBoxMinuto.getSelectedItem().toString());
+		agendador.setEnviarBoleto(true);
+		agendador.setDataCriacao(new Date());
+		agendador.setUsuarioCriacao(usuarioLogado.getNome());
+		agendCon.salvar(agendador);
+		model.preencheGrid();
+		
+		if(agendamentoEmail == null) {
+			agendamentoEmail =  new AgendamentoEmail(Integer.parseInt(agendador.getHora()), Integer.parseInt(agendador.getMinuto()));
+		} else {
+			agendamentoEmail.cancelarAgendamento();
+			agendamentoEmail =  new AgendamentoEmail(Integer.parseInt(agendador.getHora()), Integer.parseInt(agendador.getMinuto()));
+		}
+		
+		JOptionPane.showMessageDialog(null, "Agendamento Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	

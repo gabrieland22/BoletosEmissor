@@ -40,7 +40,6 @@ public class AgendadorController {
 		emf.close();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Agendador recuperaAgendamento(){
 		StringBuilder hql = new StringBuilder();
 		em.getTransaction().begin();
@@ -53,6 +52,25 @@ public class AgendadorController {
 			result = (Agendador) q.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		em.getTransaction().commit();
+		emf.close();
+		return result;
+	}
+	
+	public Agendador recuperaAgendamentoAtivo(){
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append("SELECT obj from Agendador obj ");
+		hql.append(" where enviar_boleto = 1 ");
+		Query q = em.createQuery(hql.toString());
+		
+		Agendador result = new Agendador();
+		try {
+			result = (Agendador) q.getSingleResult();
+		} catch (Exception e) {
+			return null;
 		}
 		em.getTransaction().commit();
 		emf.close();
