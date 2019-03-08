@@ -15,11 +15,11 @@ public class EnvioBoletoEmail {
 	public EnvioBoletoEmail() {
 		ClienteController cliCon = new ClienteController();
 		
-		List<String> listaEmailsClientes = cliCon.recuperaCooperadosEmailGlosaRepasse();
+		//List<String> listaEmailsClientes = cliCon.recuperaCooperadosEmailGlosaRepasse();
 
-		    if (listaEmailsClientes != null && listaEmailsClientes.size() > 0) {
-		    	
-		    }
+//		    if (listaEmailsClientes != null && listaEmailsClientes.size() > 0) {
+//		    	
+//		    }
 		
 		String pathRessourceReal = ("C:/Boletos");
 
@@ -37,17 +37,17 @@ public class EnvioBoletoEmail {
 	      Session session = Session.getDefaultInstance(properties);
 		
 		
-		try {
-			MimeMessage m = new MimeMessage(session);
-			Address from = new InternetAddress("gabrieland22@gmail.com");
-			
-			Address[] to = new InternetAddress[] {
-	                new InternetAddress(item.getEmailCorrespondencia()) };
-			
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+//		try {
+//			MimeMessage m = new MimeMessage(session);
+//			Address from = new InternetAddress("gabrieland22@gmail.com");
+//			
+//			Address[] to = new InternetAddress[] {
+//	                new InternetAddress(item.getEmailCorrespondencia()) };
+//			
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
 		
 	}
 }
