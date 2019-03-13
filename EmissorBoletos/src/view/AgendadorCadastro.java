@@ -28,6 +28,7 @@ import java.awt.Toolkit;
 
 public class AgendadorCadastro extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private AgendadorModel model = new AgendadorModel();
 	private String[] listHoras = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};

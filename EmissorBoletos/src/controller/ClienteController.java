@@ -55,6 +55,19 @@ public class ClienteController {
 		return listaCliente;
 	}
 	
+	public void atualizaClientesReceberEmailNao() {
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" UPDATE tb_cooperado_envio ");
+		hql.append(" set enviar_email = 0 ");
+		Query q = em.createNativeQuery(hql.toString());
+		
+		q.executeUpdate();
+		em.getTransaction().commit();
+		emf.close();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> buscaPadrao(ClienteFiltro filtro){
 		StringBuilder hql = new StringBuilder();

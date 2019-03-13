@@ -1,10 +1,13 @@
 package service;
 
 import java.util.Date;
+import java.util.List;
 
 import controller.AgendadorController;
+import controller.ClienteController;
 import controller.UsuarioController;
 import model.Agendador;
+import model.Cliente;
 import model.Usuario;
 
 public class LoginBean {
@@ -12,6 +15,7 @@ public class LoginBean {
 	public void iniciar() {
 		UsuarioController usuCon = new UsuarioController();
 		AgendadorController agendCon = new AgendadorController();
+		ClienteController cliCon = new ClienteController();
 		if (usuCon.listarUsuarios().size() == 0 ) {
 			Usuario usr = new Usuario();
 			usr.setNome("Administrador");
@@ -30,6 +34,11 @@ public class LoginBean {
 			agend.setDataCriacao(new Date());
 			agendCon.salvar(agend);
 			
+		}
+		
+		List<Cliente> listCli = cliCon.listarUsuarios();
+		if(listCli != null && listCli.size() > 0){
+			cliCon.atualizaClientesReceberEmailNao();
 		}
 	}
 	

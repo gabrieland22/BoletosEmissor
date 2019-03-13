@@ -39,6 +39,8 @@ public class Cliente {
 	private String telefone;
 	@Column
 	private String celular;
+	@Column (name = "enviar_email")
+	private Boolean enviarEmail;
 	@Column
 	private String email;
 	@Column (name = "usuario_criacao")
@@ -159,6 +161,10 @@ public class Cliente {
 	public void setDataAlteracao(Date dataAlteracao) {
 		this.dataAlteracao = dataAlteracao;
 	}
-	
-	
+	public Boolean getEnviarEmail() {
+		return enviarEmail;
+	}
+	public void setEnviarEmail(Boolean enviarEmail) {
+		this.enviarEmail = enviarEmail;
+	}
 }

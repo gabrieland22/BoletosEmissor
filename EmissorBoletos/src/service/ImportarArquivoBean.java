@@ -95,6 +95,7 @@ public class ImportarArquivoBean {
                 cliente.setUsuarioAlteracao(usuarioLogado.getNome());
                 cliente.setDataCriacao(new Date());
                 cliente.setDataAlteracao(new Date());
+                cliente.setEnviarEmail(false);
                 
                 cliCon.salvar(cliente);
                 registro2++;
