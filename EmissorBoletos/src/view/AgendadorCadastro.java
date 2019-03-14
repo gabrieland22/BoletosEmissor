@@ -3,6 +3,7 @@ package view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -20,11 +21,10 @@ import javax.swing.border.EmptyBorder;
 
 import controller.AgendadorController;
 import controller.AgendadorModel;
+import controller.ClienteController;
 import model.Agendador;
 import model.Usuario;
 import service.AgendamentoEmail;
-
-import java.awt.Toolkit;
 
 public class AgendadorCadastro extends JFrame {
 
@@ -198,6 +198,36 @@ public class AgendadorCadastro extends JFrame {
 			comboBoxMinuto.addItem(comboBoxMinuto);
 			contentPane.add(comboBoxMinuto);
 			
+			JButton btnSelecionarCliente = new JButton("");
+			btnSelecionarCliente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					selecionarClientes();
+				}
+			});
+			btnSelecionarCliente.setIcon(new ImageIcon(AgendadorCadastro.class.getResource("/images/selecionarCliente.png")));
+			btnSelecionarCliente.setBounds(365, 141, 48, 48);
+			contentPane.add(btnSelecionarCliente);
+			
+			JLabel lblSelecionarCliente = new JLabel("Selecionar Cliente");
+			lblSelecionarCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblSelecionarCliente.setBounds(347, 189, 85, 14);
+			contentPane.add(lblSelecionarCliente);
+			
+			JButton btnSelecionarTodos = new JButton("");
+			btnSelecionarTodos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					marcarTodosClientesEnviar();
+				}
+			});
+			btnSelecionarTodos.setIcon(new ImageIcon(AgendadorCadastro.class.getResource("/images/selecionarTodos.png")));
+			btnSelecionarTodos.setBounds(460, 140, 48, 48);
+			contentPane.add(btnSelecionarTodos);
+			
+			JLabel lblMarcarTodos = new JLabel("Selecionar Todos");
+			lblMarcarTodos.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			lblMarcarTodos.setBounds(442, 188, 85, 14);
+			contentPane.add(lblMarcarTodos);
+			
 			
 			
 	}
@@ -224,6 +254,13 @@ public class AgendadorCadastro extends JFrame {
 		comboBoxHora.setSelectedItem(agendador.getHora());
 	}
 	
+	public void selecionarClientes() {
+		EnvioEmailCliente envioEmailClienteTela = new EnvioEmailCliente();
+		envioEmailClienteTela.setVisible(true);  
+		envioEmailClienteTela.setLocation(300,300);  
+		envioEmailClienteTela.setResizable(false);
+	}
+	
 	public void salvar() {
 		AgendadorController agendCon = new AgendadorController();
 		Agendador agendador = agendCon.recuperaAgendamento();
@@ -245,5 +282,17 @@ public class AgendadorCadastro extends JFrame {
 		JOptionPane.showMessageDialog(null, "Agendamento Salvo com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	
+	public void marcarTodosClientesEnviar(){
+		ClienteController cliCon = new ClienteController();
+		Object[] botoes = { "Sim", "Não" };
+		int resposta = JOptionPane.showOptionDialog(null,
+				"Deseja marcar todos os clientes para recebimento?",
+				"Confirmação", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				botoes, botoes[0]);
+		if(resposta == 0) {
+			cliCon.atualizaClientesReceberEmailSim();
+			JOptionPane.showMessageDialog(null, "Todos os clientes foram marcados com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
 }

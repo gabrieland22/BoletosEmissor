@@ -4,11 +4,13 @@ public class ClienteFiltro {
 	private String nome ;
 	private String codigo ;
 	private String cpf ;
+	private Boolean gridSelecionarCliente;
 	
 	public void clear() {
 		nome = "";
 		codigo = "";
 		cpf = "";
+		gridSelecionarCliente = null;
 	}
 
 	public String getNome() {
@@ -33,6 +35,14 @@ public class ClienteFiltro {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Boolean getGridSelecionarCliente() {
+		return gridSelecionarCliente;
+	}
+
+	public void setGridSelecionarCliente(Boolean gridSelecionarCliente) {
+		this.gridSelecionarCliente = gridSelecionarCliente;
 	}
 	
 	

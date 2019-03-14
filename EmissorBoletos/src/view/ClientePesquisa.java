@@ -310,7 +310,7 @@ public class ClientePesquisa extends JFrame {
 	
 	public void editar() {
 		Cliente cliente = new Cliente();
-		cliente = model.recueraClienteSelecionado(tableClientes.getSelectedRow());
+		cliente = model.recuperaClienteSelecionado(tableClientes.getSelectedRow());
 			ClienteCadastro clienteCadastroTela = new ClienteCadastro(cliente,usuarioLogado);
 			limpar();
 			clienteCadastroTela.setVisible(true);  

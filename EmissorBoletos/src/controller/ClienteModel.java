@@ -85,12 +85,14 @@ public class ClienteModel extends AbstractTableModel{
 		}
 	}
 	
+	
+	
 	public void limparGrid() {
 		listCli.clear();
 		this.fireTableDataChanged();
 	}
 	
-	public Cliente recueraClienteSelecionado (int linha) {
+	public Cliente recuperaClienteSelecionado (int linha) {
 		Cliente cliente = new Cliente();
 		ClienteController cliCon = new ClienteController();
 		cliente = cliCon.recuperaClientePorID(listCli.get(linha).getId());

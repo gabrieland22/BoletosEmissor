@@ -41,6 +41,36 @@ public class ClienteController {
 		emf.close();
 	}
 	
+	public void removerClienteSelecionado(int id) {
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" UPDATE tb_cooperado_envio obj ");
+		hql.append(" set enviar_email = 0 ");
+		hql.append(" where obj.id = :id ");
+		Query q = em.createNativeQuery(hql.toString());
+		q.setParameter("id", id);
+		
+		q.executeUpdate();
+		em.getTransaction().commit();
+		emf.close();
+	}
+	
+	public void salvarClienteSelecionado(int id) {
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" UPDATE tb_cooperado_envio obj ");
+		hql.append(" set enviar_email = 1 ");
+		hql.append(" where obj.id = :id ");
+		Query q = em.createNativeQuery(hql.toString());
+		q.setParameter("id", id);
+		
+		q.executeUpdate();
+		em.getTransaction().commit();
+		emf.close();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> listarUsuarios(){
 		StringBuilder hql = new StringBuilder();
@@ -61,6 +91,19 @@ public class ClienteController {
 		
 		hql.append(" UPDATE tb_cooperado_envio ");
 		hql.append(" set enviar_email = 0 ");
+		Query q = em.createNativeQuery(hql.toString());
+		
+		q.executeUpdate();
+		em.getTransaction().commit();
+		emf.close();
+	}
+	
+	public void atualizaClientesReceberEmailSim() {
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" UPDATE tb_cooperado_envio ");
+		hql.append(" set enviar_email = 1 ");
 		Query q = em.createNativeQuery(hql.toString());
 		
 		q.executeUpdate();
