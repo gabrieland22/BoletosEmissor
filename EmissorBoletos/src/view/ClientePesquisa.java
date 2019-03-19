@@ -23,12 +23,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import controller.ClienteController;
 import controller.ClienteFiltro;
 import controller.ClienteModel;
 import model.Cliente;
 import model.Usuario;
 import service.ImportarArquivoBean;
 import java.awt.Toolkit;
+import java.awt.Color;
 
 public class ClientePesquisa extends JFrame {
 
@@ -78,6 +80,7 @@ public class ClientePesquisa extends JFrame {
 		contentPane.add(lblPesquisarCliente);
 		
 		JButton btnPesquisarCliente = new JButton("");
+		btnPesquisarCliente.setForeground(Color.BLACK);
 		btnPesquisarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filtro.setNome(txtNomeClientePesquisa.getText());
@@ -277,6 +280,22 @@ public class ClientePesquisa extends JFrame {
 		lblVoltar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblVoltar.setBounds(779, 193, 38, 14);
 		contentPane.add(lblVoltar);
+		
+		JButton btnLimparTabela = new JButton("");
+		btnLimparTabela.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpar();
+				limparTabela();
+			}
+		});
+		btnLimparTabela.setIcon(new ImageIcon(ClientePesquisa.class.getResource("/images/limparTabela.png")));
+		btnLimparTabela.setBounds(484, 145, 48, 48);
+		contentPane.add(btnLimparTabela);
+		
+		JLabel lblLimparTabela = new JLabel("Limpar Tabela");
+		lblLimparTabela.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblLimparTabela.setBounds(477, 193, 66, 14);
+		contentPane.add(lblLimparTabela);
 	}
 	public boolean pesquisarAntes(ClienteFiltro filtro) {
 		boolean retorno = true;
@@ -320,5 +339,19 @@ public class ClientePesquisa extends JFrame {
 	
 	public void remover() {
 			model.removeItemGrid(tableClientes.getSelectedRow());
+	}
+	
+	public void limparTabela() {
+			ClienteController cliCon = new ClienteController();
+			Object[] botoes = { "Sim", "Não" };
+		int resposta = JOptionPane.showOptionDialog(null,
+				"Deseja Limpar a tabela de Clientes?",
+				"Confirmação", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				botoes, botoes[0]);
+		if(resposta == 0) {
+			cliCon.limparTabelaClientes();
+			JOptionPane.showMessageDialog(null, "Tabela de clientes limpa com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }

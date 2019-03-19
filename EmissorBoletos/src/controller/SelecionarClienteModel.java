@@ -88,8 +88,7 @@ public class SelecionarClienteModel extends AbstractTableModel{
 				botoes, botoes[0]);
 		if(resposta == 0) {
 			cliCon.removerClienteSelecionado(listCli.get(linha).getId());
-			this.listCli.remove(linha);
-			this.fireTableDataChanged();
+
 		}
 	}
 	

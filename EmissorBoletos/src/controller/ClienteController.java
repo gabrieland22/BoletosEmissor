@@ -56,6 +56,17 @@ public class ClienteController {
 		emf.close();
 	}
 	
+	public void limparTabelaClientes() {
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		
+		hql.append(" DELETE Cliente ");
+		Query q = em.createQuery(hql.toString());
+		q.executeUpdate();
+		em.getTransaction().commit();
+		emf.close();
+	}
+	
 	public void salvarClienteSelecionado(int id) {
 		StringBuilder hql = new StringBuilder();
 		em.getTransaction().begin();

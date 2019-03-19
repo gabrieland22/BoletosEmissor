@@ -152,7 +152,7 @@ public class EnvioEmailCliente extends JFrame {
 					JOptionPane.showMessageDialog(null, "Para Remover favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Favor Remover um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -218,6 +218,7 @@ public class EnvioEmailCliente extends JFrame {
 	
 	public void remover(){
 		model.removeSelecaoCliente(tableSelecionarCliente.getSelectedRow());
+		pesquisar();
 	}
 	
 	public void salvar(){

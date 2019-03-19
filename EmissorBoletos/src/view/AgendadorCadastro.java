@@ -110,7 +110,7 @@ public class AgendadorCadastro extends JFrame {
 			tableAgendamento.setBackground(new Color(255, 255, 255));
 			tableAgendamento.setBounds(54, 229, 725, 190);
 			tableAgendamento.setModel(model);
-			JScrollPane scrollPaneAgendamento = new JScrollPane(tableAgendamento);
+			JScrollPane scrollPaneAgendamento = new JScrollPane();
 			scrollPaneAgendamento.setBounds(46, 213, 718, 78);
 			contentPane.add(scrollPaneAgendamento);
 			
@@ -205,12 +205,12 @@ public class AgendadorCadastro extends JFrame {
 				}
 			});
 			btnSelecionarCliente.setIcon(new ImageIcon(AgendadorCadastro.class.getResource("/images/selecionarCliente.png")));
-			btnSelecionarCliente.setBounds(365, 141, 48, 48);
+			btnSelecionarCliente.setBounds(301, 141, 48, 48);
 			contentPane.add(btnSelecionarCliente);
 			
 			JLabel lblSelecionarCliente = new JLabel("Selecionar Cliente");
 			lblSelecionarCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblSelecionarCliente.setBounds(347, 189, 85, 14);
+			lblSelecionarCliente.setBounds(285, 188, 85, 14);
 			contentPane.add(lblSelecionarCliente);
 			
 			JButton btnSelecionarTodos = new JButton("");
@@ -220,12 +220,12 @@ public class AgendadorCadastro extends JFrame {
 				}
 			});
 			btnSelecionarTodos.setIcon(new ImageIcon(AgendadorCadastro.class.getResource("/images/selecionarTodos.png")));
-			btnSelecionarTodos.setBounds(460, 140, 48, 48);
+			btnSelecionarTodos.setBounds(400, 140, 48, 48);
 			contentPane.add(btnSelecionarTodos);
 			
 			JLabel lblMarcarTodos = new JLabel("Selecionar Todos");
 			lblMarcarTodos.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblMarcarTodos.setBounds(442, 188, 85, 14);
+			lblMarcarTodos.setBounds(382, 188, 81, 14);
 			contentPane.add(lblMarcarTodos);
 			
 			
