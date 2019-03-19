@@ -110,7 +110,7 @@ public class AgendadorCadastro extends JFrame {
 			tableAgendamento.setBackground(new Color(255, 255, 255));
 			tableAgendamento.setBounds(54, 229, 725, 190);
 			tableAgendamento.setModel(model);
-			JScrollPane scrollPaneAgendamento = new JScrollPane();
+			JScrollPane scrollPaneAgendamento = new JScrollPane(tableAgendamento);
 			scrollPaneAgendamento.setBounds(46, 213, 718, 78);
 			contentPane.add(scrollPaneAgendamento);
 			

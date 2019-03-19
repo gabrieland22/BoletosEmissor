@@ -51,6 +51,8 @@ public class Cliente {
 	private String usuarioAlteracao;
 	@Column (name = "data_alteracao")
 	private Date dataAlteracao;
+	@Column (name = "numero_controle")
+	private Date numeroControle;
 
 	public int getId() {
 		return id;
@@ -167,4 +169,12 @@ public class Cliente {
 	public void setEnviarEmail(Boolean enviarEmail) {
 		this.enviarEmail = enviarEmail;
 	}
+	public Date getNumeroControle() {
+		return numeroControle;
+	}
+	public void setNumeroControle(Date numeroControle) {
+		this.numeroControle = numeroControle;
+	}
+	
+	
 }

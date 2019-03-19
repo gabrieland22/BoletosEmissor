@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import model.Cliente;
-import model.Usuario;
+import vo.ClienteEnvioVO;
 
 public class ClienteController {
 	
@@ -226,6 +226,60 @@ public class ClienteController {
 		}else {
 			return false;
 		}
+	}
+	
+	public List<ClienteEnvioVO> recuperaClientesParaEnvio(){
+		List<ClienteEnvioVO> listaClientesParaEnvio = new ArrayList<>();
+		String  cpf, email, nome;
+		StringBuilder hql = new StringBuilder();
+		em.getTransaction().begin();
+		hql.append(" SELECT obj.cpf, obj.numero_controle, obj.email, obj.nome ");
+		hql.append(" FROM tb_cooperado_envio obj ");
+		hql.append(" WHERE obj.enviar_email = 1 and obj.email IS NOT NULL ");
+		
+		Query q = em.createNativeQuery(hql.toString());
+		
+		em.getTransaction().commit();
+		emf.close();
+		
+		ClienteEnvioVO clienteEnvioVO;
+		List lista = q.getResultList();
+		if (lista.size() > 0) {
+			for (Object item : lista) {
+				Object[] array;
+		        array = (Object[]) item;
+		        clienteEnvioVO = new ClienteEnvioVO();
+		        
+		        
+		        if (array[0] != null) {
+		        	cpf = array[0].toString();
+		        	cpf.replaceAll(".", "");
+		        	cpf.replaceAll("-", "");
+		        	clienteEnvioVO.setCpf(cpf.trim());
+		          }
+
+		          if (array[1] != null) {
+		        	  clienteEnvioVO.setNumeroControle((String) array[1]);
+		          }else{
+		        	  clienteEnvioVO.setNumeroControle(null);
+		          }
+
+		          if (array[2] != null) {
+		        	  email = (String) array[2];
+		        	  email.toLowerCase();
+		        	  clienteEnvioVO.setEmail(email.trim());
+		          }
+		          
+		          if (array[3] != null) {
+		        	  nome = (String) array[3];
+		        	  clienteEnvioVO.setEmail(nome.trim());
+		          }
+		          
+		          listaClientesParaEnvio.add(clienteEnvioVO);
+			}
+		}
+		
+		return listaClientesParaEnvio;
 	}
 	
 }
