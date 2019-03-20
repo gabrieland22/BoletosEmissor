@@ -253,8 +253,8 @@ public class ClienteController {
 		        
 		        if (array[0] != null) {
 		        	cpf = array[0].toString();
-		        	cpf.replaceAll(".", "");
-		        	cpf.replaceAll("-", "");
+		        	cpf = cpf.replace(".", "");
+		        	cpf = cpf.replace("-", "");
 		        	clienteEnvioVO.setCpf(cpf.trim());
 		          }
 
@@ -266,13 +266,13 @@ public class ClienteController {
 
 		          if (array[2] != null) {
 		        	  email = (String) array[2];
-		        	  email.toLowerCase();
+		        	  email = email.toLowerCase();
 		        	  clienteEnvioVO.setEmail(email.trim());
 		          }
 		          
 		          if (array[3] != null) {
 		        	  nome = (String) array[3];
-		        	  clienteEnvioVO.setEmail(nome.trim());
+		        	  clienteEnvioVO.setNome(nome.trim());
 		          }
 		          
 		          listaClientesParaEnvio.add(clienteEnvioVO);
