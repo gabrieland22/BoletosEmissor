@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -128,13 +130,9 @@ public class EnvioEmailCliente extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tableSelecionarCliente.getSelectedRow() != -1) {
-					if(tableSelecionarCliente.getSelectedRowCount() == 1) {
 						salvar();
-					}else {
-					JOptionPane.showMessageDialog(null, "Para Salvar favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
-					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Favor Selecionar ao menos um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -146,13 +144,9 @@ public class EnvioEmailCliente extends JFrame {
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tableSelecionarCliente.getSelectedRow() != -1) {
-					if(tableSelecionarCliente.getSelectedRowCount() == 1) {
 						remover();
-					}else {
-					JOptionPane.showMessageDialog(null, "Para Remover favor selecionar apenas 1 item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}else {
-					JOptionPane.showMessageDialog(null, "Favor Selecionar um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					JOptionPane.showMessageDialog(null, "Favor Selecionar ao menos um item.", "Selecione", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -217,12 +211,26 @@ public class EnvioEmailCliente extends JFrame {
 	}
 	
 	public void remover(){
-		model.removeSelecaoCliente(tableSelecionarCliente.getSelectedRow());
+		Object[] botoes = { "Sim", "Não" };
+		int resposta = JOptionPane.showOptionDialog(null,
+				"Deseja salvar a remoção?",
+				"Confirmação", 
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+				botoes, botoes[0]);
+		if(resposta == 0) {
+			int[] listaIdiceSelecionados;
+			listaIdiceSelecionados = tableSelecionarCliente.getSelectedRows();
+			
+			for(int i = 0 ; i<listaIdiceSelecionados.length; i++){
+				model.removeSelecaoCliente(listaIdiceSelecionados[i]);
+			}
+			
+			JOptionPane.showMessageDialog(null, "Cliente(s) desmarcado(s) com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+		}
 		pesquisar();
 	}
 	
 	public void salvar(){
-		ClienteController cliCon = new ClienteController();
 		Object[] botoes = { "Sim", "Não" };
 		int resposta = JOptionPane.showOptionDialog(null,
 				"Deseja salvar a seleção?",
@@ -230,11 +238,14 @@ public class EnvioEmailCliente extends JFrame {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				botoes, botoes[0]);
 		if(resposta == 0) {
-			Cliente cli = new Cliente();
-			cli = model.recuperaClienteSelecionado(tableSelecionarCliente.getSelectedRow());
-			cli.setEnviarEmail(true);
-			cliCon.salvarClienteSelecionado(cli.getId());
-			JOptionPane.showMessageDialog(null, "Cliente marcado com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+			int[] listaIdiceSelecionados;
+			listaIdiceSelecionados = tableSelecionarCliente.getSelectedRows();
+			
+			for(int i = 0 ; i<listaIdiceSelecionados.length; i++){
+				model.selecionarCliente(listaIdiceSelecionados[i]);
+			}
+			
+			JOptionPane.showMessageDialog(null, "Cliente(s) marcado(s) com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
 		}
 		pesquisar();
 	}

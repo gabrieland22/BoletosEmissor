@@ -61,35 +61,18 @@ public class SelecionarClienteModel extends AbstractTableModel{
 		
 	}
 	
-	public void removeItemGrid(int linha) {
-		
-		ClienteController cliCon = new ClienteController();
-		Object[] botoes = { "Sim", "Não" };
-		int resposta = JOptionPane.showOptionDialog(null,
-				"Deseja remover o cliente?",
-				"Confirmação", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				botoes, botoes[0]);
-		if(resposta == 0) {
-			cliCon.remover(listCli.get(linha).getId());
-			this.listCli.remove(linha);
-			this.fireTableDataChanged();
-		}
-	}
-	
 	public void removeSelecaoCliente(int linha) {
 		
-		ClienteController cliCon = new ClienteController();
-		Object[] botoes = { "Sim", "Não" };
-		int resposta = JOptionPane.showOptionDialog(null,
-				"Deseja remover o cliente?",
-				"Confirmação", 
-				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-				botoes, botoes[0]);
-		if(resposta == 0) {
+			ClienteController cliCon = new ClienteController();
 			cliCon.removerClienteSelecionado(listCli.get(linha).getId());
 
-		}
+	}
+	
+	public void selecionarCliente(int linha) {
+		
+		ClienteController cliCon = new ClienteController();
+		cliCon.salvarClienteSelecionado(listCli.get(linha).getId());
+
 	}
 	
 	public void limparGrid() {
