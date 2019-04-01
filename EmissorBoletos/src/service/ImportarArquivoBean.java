@@ -27,8 +27,14 @@ public class ImportarArquivoBean {
 		
 		Workbook workbook = null; 
 		Sheet sheet = null;
-		workbook = WorkbookFactory.create(fis);
-        sheet = workbook.getSheetAt(0);
+		
+		try{
+			workbook = WorkbookFactory.create(fis);
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Não foi possível importar. Arquivo Inválido ou corrompido", "", JOptionPane.INFORMATION_MESSAGE);
+		}
+        
+		sheet = workbook.getSheetAt(0);
         Long registro1 = 0L;
         Iterator<Row> rowIterator = sheet.iterator();
         ClienteController cliCon = new ClienteController();

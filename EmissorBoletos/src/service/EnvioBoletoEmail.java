@@ -101,12 +101,11 @@ public class EnvioBoletoEmail {
 				    					msg.setSubject(
 				    			                " Boleto digital Valem");
 				    					String texto = " Prezado(a) "+cliEnv.getNome() 
-				    							+"\n"+" Para sua comodidade, a Valem está enviando seu boleto por e-mail."
-				    							+"\n"+" Você também receberá este mesmo boleto impresso em seu endereço de cobrança."
-				    							+"\n"+" Ressaltamos que o método de envio padrão dos boletos da Valem permanece via correios."
-				    							+"\n"+" Estamos trabalhando para melhor atendê-lo(a), fique atento(a) às novidades!"
-				    							+"\n\n"+" [Favor não Responder]"
-				    							+"\n\n"+"Valem Administradora de Benefícios "
+				    							+"\n"+" Segue anexo seu boleto referente ao pagamento da Valem Administradora de Benefícios."
+				    							+"\n"+" Você receberá este mesmo boleto impresso no seu endereço cadastrado para cobrança."
+				    							+"\n"+" O envio do boleto por e-mail é mais um serviço para sua comodidade e não substituirá o envio via correios."
+				    							+"\n"+" A Valem está sempre trabalhando para melhor atendê-lo(a). Fique atento(a) às novidades."
+				    							+"\n\n"+"Valem Administradora de Benefícios Ltda."
 				    							+"\n"+"www.valem.com.br";
 				    					MimeBodyPart corpoMsg = new MimeBodyPart();
 				    					corpoMsg.setText(texto);
