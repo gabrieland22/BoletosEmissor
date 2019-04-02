@@ -235,7 +235,7 @@ public class ClienteController {
 		em.getTransaction().begin();
 		hql.append(" SELECT obj.cpf, obj.numero_controle, obj.email, obj.nome ");
 		hql.append(" FROM tb_cooperado_envio obj ");
-		hql.append(" WHERE obj.enviar_email = 1 and obj.email IS NOT NULL ");
+		hql.append(" WHERE obj.enviar_email = 1 ");
 		
 		Query q = em.createNativeQuery(hql.toString());
 		

@@ -53,14 +53,12 @@ public class EnvioBoletoEmail {
             }
         });
 		String sourceBoletos = ("C:/Boletos/");
-		String sourceRealImage = System.getProperty("user.dir").toString() + "/src/images/logo_valem.png";
+
 		
+			 // String sourceRealImage = System.getProperty("user.dir").toString() + "/src/images/logo_valem.png";
+			//Properties prop = PropertiesLoader.propertiesLoader(sourceRealImage);
+		   // String pathRessourceReal = prop.getProperty("path_emails");
 
-//		      Properties prop = PropertiesLoader.propertiesLoader(sourceRealImage);
-//		      String pathRessourceReal = prop.getProperty("path_emails");
-
-	      // Assuming you are sending email from localhost
-//	      String host = "localhost";
 	      Properties props = new Properties();
           /** Parâmetros de conexão com servidor Gmail */
           props.put("mail.smtp.host", "smtp.gmail.com");
@@ -85,6 +83,7 @@ public class EnvioBoletoEmail {
 		    if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
 		    	for(ClienteEnvioVO cliEnv : listaClientesEnvio){
 		    		RelatorioEnvioVO vO = new RelatorioEnvioVO();
+		    		achouBoleto = false;
 		    		for (int i = 0; i < listaBoletos.length; ++i) {
 		    			if(cliEnv.getCpf().contains(listaBoletos[i].getName().substring(7, 17))){
 		    				achouBoleto = true;
@@ -97,9 +96,8 @@ public class EnvioBoletoEmail {
 				    					
 				    					msg.setFrom(from);
 				    					msg.setRecipients(Message.RecipientType.TO, to);
-				    			//		msg.setRecipients(Message.RecipientType.BCC, "billy.302@hotmail.com");
 				    					msg.setSubject(
-				    			                " Boleto digital Valem");
+				    			                "Boleto Valem");
 				    					String texto = " Prezado(a) "+cliEnv.getNome() 
 				    							+"\n"+" Segue anexo seu boleto referente ao pagamento da Valem Administradora de Benefícios."
 				    							+"\n"+" Você receberá este mesmo boleto impresso no seu endereço cadastrado para cobrança."
