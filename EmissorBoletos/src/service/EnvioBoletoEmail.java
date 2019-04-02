@@ -103,6 +103,7 @@ public class EnvioBoletoEmail {
 				    							+"\n"+" Você receberá este mesmo boleto impresso no seu endereço cadastrado para cobrança."
 				    							+"\n"+" O envio do boleto por e-mail é mais um serviço para sua comodidade e não substituirá o envio via correios."
 				    							+"\n"+" A Valem está sempre trabalhando para melhor atendê-lo(a). Fique atento(a) às novidades."
+				    							+"\n"+" Caso o boleto tenha sido pago, favor desconsiderar."
 				    							+"\n\n"+"Valem Administradora de Benefícios Ltda."
 				    							+"\n"+"www.valem.com.br";
 				    					MimeBodyPart corpoMsg = new MimeBodyPart();
