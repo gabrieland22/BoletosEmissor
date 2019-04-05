@@ -71,7 +71,7 @@ public class EnvioBoletoEmail {
                       new javax.mail.Authenticator() {
                            protected PasswordAuthentication getPasswordAuthentication() 
                            {
-                                 return new PasswordAuthentication("operacional@valem.com.br", "valem@123");
+                                 return new PasswordAuthentication("operacional1@valem.com.br", "valem3013");
                            }
                       });
 
