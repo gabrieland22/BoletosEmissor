@@ -42,8 +42,10 @@ import controller.ClienteController;
 
 public class EnvioBoletoEmail {
 
-  public EnvioBoletoEmail() {
+  public EnvioBoletoEmail(String user, String password) {
     ClienteController cliCon = new ClienteController();
+    final String contaEmail = user;
+    final String senha = password;
     boolean achouBoleto = false;
     List<RelatorioEnvioVO> listaRelatorio = new ArrayList<>();
     int contador = 0;
@@ -78,33 +80,27 @@ public class EnvioBoletoEmail {
             // return new PasswordAuthentication("operacional1@valem.com.br",
             // "valem3013"
 
-            // return new PasswordAuthentication("operacional2@valem.com.br",
-            // "valem@1234"
-
             // return new PasswordAuthentication("operacional3@valem.com.br",
             // "valem@1234"
 
-            return new PasswordAuthentication("operacional4@valem.com.br",
-                "valem@123");
+            return new PasswordAuthentication(contaEmail, senha);
           }
         });
 
     /** Ativa Debug para sessão */
     session.setDebug(true);
-
     List<ClienteEnvioVO> listaClientesEnvio = cliCon
         .recuperaClientesParaEnvio();
     if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
-      for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
-        RelatorioEnvioVO vO = new RelatorioEnvioVO();
-        achouBoleto = false;
-        for (int i = 0; i < listaBoletos.length; ++i) {
-          if (cliEnv.getCpf().contains(
-              listaBoletos[i].getName().substring(7, 17))) {
-            achouBoleto = true;
-            if (cliEnv.getEmail() != null
-                && !cliEnv.getEmail().trim().equals("")) {
-              try {
+      try {
+        for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
+          RelatorioEnvioVO vO = new RelatorioEnvioVO();
+          for (int i = 0; i < listaBoletos.length; ++i) {
+            if (cliEnv.getCpf().contains(
+                listaBoletos[i].getName().substring(7, 17))) {
+              achouBoleto = true;
+              if (cliEnv.getEmail() != null
+                  && !cliEnv.getEmail().trim().equals("")) {
                 MimeMessage msg = new MimeMessage(session);
                 Address from = new InternetAddress("operacional@valem.com.br");
                 Address[] to = new InternetAddress[] { new InternetAddress(
@@ -116,17 +112,19 @@ public class EnvioBoletoEmail {
                 String texto = " Prezado(a) "
                     + cliEnv.getNome()
                     + "\n"
+                    + " E-mail automático, não responder."
+                    + "\n"
                     + " Segue anexo seu boleto referente ao pagamento da Valem Administradora de Benefícios."
                     + "\n"
                     + " Você receberá este mesmo boleto impresso no seu endereço cadastrado para cobrança."
+                    + "\n\n"
+                    + " Central de Atendimento Valem:"
                     + "\n"
-                    + " O envio do boleto por e-mail é mais um serviço para sua comodidade e não substituirá o envio via correios."
+                    + " Whatsapp: 313249-3000 (Adicione nosso número e solicite atendimento iniciando uma conversa)"
                     + "\n"
-                    + " A Valem está sempre trabalhando para melhor atendê-lo(a). Fique atento(a) às novidades."
-                    + "\n"
-                    + " Caso o boleto tenha sido pago, favor desconsiderar."
-                    + "\n\n" + "Valem Administradora de Benefícios Ltda."
-                    + "\n" + "www.valem.com.br";
+                    + " Telefone: 31 3249-3000 (Belo Horizonte e região metropolitana) e 0800 033 6000 (Demais Localidades)"
+                    + "\n" + " E-mail: atendimento@valem.com.br" + "\n\n"
+                    + " Site: www.valem.com.br";
                 MimeBodyPart corpoMsg = new MimeBodyPart();
                 corpoMsg.setText(texto);
 
@@ -152,26 +150,30 @@ public class EnvioBoletoEmail {
                 listaRelatorio.add(vO);
                 contador++;
 
-              } catch (Exception e) {
-                System.out.println("[ ERRO ] ao enviar Boleto. Cliente: "
-                    + cliEnv.getNome());
-                e.printStackTrace();
+              } else {
+                vO.setNomeCliente(cliEnv.getNome());
+                vO.setEnviouEmail("Não");
+                vO.setMotivo("Cliente sem email cadastrado");
+                listaRelatorio.add(vO);
               }
-            } else {
-              vO.setNomeCliente(cliEnv.getNome());
-              vO.setEnviouEmail("Não");
-              vO.setMotivo("Cliente sem email cadastrado");
-              listaRelatorio.add(vO);
             }
           }
+          if (!achouBoleto) {
+            vO.setNomeCliente(cliEnv.getNome());
+            vO.setEnviouEmail("Não");
+            vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
+            listaRelatorio.add(vO);
+          }
         }
-        if (!achouBoleto) {
-          vO.setNomeCliente(cliEnv.getNome());
-          vO.setEnviouEmail("Não");
-          vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
-          listaRelatorio.add(vO);
-        }
+      } catch (Exception e) {
+        JOptionPane
+            .showMessageDialog(
+                null,
+                "A conta e senha informadas não foram autenticadas ou a conta não atende as configurações "
+                    + "necessárias para envio.", "",
+                JOptionPane.WARNING_MESSAGE);
       }
+
       Object[] botoes = { "Sim", "Não" };
       int resposta = JOptionPane.showOptionDialog(null,
           "Deseja baixar o relatório de Envio?", "Confirmação",
