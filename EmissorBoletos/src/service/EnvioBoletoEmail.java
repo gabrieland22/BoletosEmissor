@@ -42,10 +42,8 @@ import controller.ClienteController;
 
 public class EnvioBoletoEmail {
 
-  public EnvioBoletoEmail(String user, String password) {
+  public EnvioBoletoEmail(final String contaEmail, final String senha) {
     ClienteController cliCon = new ClienteController();
-    final String contaEmail = user;
-    final String senha = password;
     boolean achouBoleto = false;
     List<RelatorioEnvioVO> listaRelatorio = new ArrayList<>();
     int contador = 0;
@@ -80,6 +78,9 @@ public class EnvioBoletoEmail {
             // return new PasswordAuthentication("operacional1@valem.com.br",
             // "valem3013"
 
+            // return new PasswordAuthentication("operacional2@valem.com.br",
+            // "valem@1234"
+
             // return new PasswordAuthentication("operacional3@valem.com.br",
             // "valem@1234"
 
@@ -89,18 +90,21 @@ public class EnvioBoletoEmail {
 
     /** Ativa Debug para sessão */
     session.setDebug(true);
+
     List<ClienteEnvioVO> listaClientesEnvio = cliCon
         .recuperaClientesParaEnvio();
-    if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
-      try {
+    try {
+      if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
         for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
           RelatorioEnvioVO vO = new RelatorioEnvioVO();
+          achouBoleto = false;
           for (int i = 0; i < listaBoletos.length; ++i) {
             if (cliEnv.getCpf().contains(
                 listaBoletos[i].getName().substring(7, 17))) {
               achouBoleto = true;
               if (cliEnv.getEmail() != null
                   && !cliEnv.getEmail().trim().equals("")) {
+
                 MimeMessage msg = new MimeMessage(session);
                 Address from = new InternetAddress("operacional@valem.com.br");
                 Address[] to = new InternetAddress[] { new InternetAddress(
@@ -165,27 +169,26 @@ public class EnvioBoletoEmail {
             listaRelatorio.add(vO);
           }
         }
-      } catch (Exception e) {
-        JOptionPane
-            .showMessageDialog(
-                null,
-                "A conta e senha informadas não foram autenticadas ou a conta não atende as configurações "
-                    + "necessárias para envio.", "",
-                JOptionPane.WARNING_MESSAGE);
+        Object[] botoes = { "Sim", "Não" };
+        int resposta = JOptionPane.showOptionDialog(null,
+            "Deseja baixar o relatório de Envio?", "Confirmação",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+            botoes, botoes[0]);
+        if (resposta == 0) {
+          exportarExcel("C:/Relatorios/", listaRelatorio);
+        }
+      } else {
+        JOptionPane.showMessageDialog(null,
+            "Não foram encontrados clientes aptos ao recebimento.", "",
+            JOptionPane.WARNING_MESSAGE);
       }
-
-      Object[] botoes = { "Sim", "Não" };
-      int resposta = JOptionPane.showOptionDialog(null,
-          "Deseja baixar o relatório de Envio?", "Confirmação",
-          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-          botoes, botoes[0]);
-      if (resposta == 0) {
-        exportarExcel("C:/Relatorios/", listaRelatorio);
-      }
-    } else {
-      JOptionPane.showMessageDialog(null,
-          "Não foram encontrados clientes aptos ao recebimento.", "",
-          JOptionPane.WARNING_MESSAGE);
+    } catch (Exception e) {
+      final String s = "A conta emissora e senha informadas não foram autenticadas."
+          + " Ou as configurações da conta não atendem aos requisitos para envio."
+          + " Favor REINICIAR a aplicação e enviar novamente os emails informando a conta emissora,"
+          + " ou entre em contato com o suporte para verificação das configurações.";
+      final String html = "<html><body style='width: %1spx'>%1s";
+      JOptionPane.showMessageDialog(null, String.format(html, 400, s));
     }
     JOptionPane.showMessageDialog(null, "Foram enviados: " + contador
         + " emails.", "", JOptionPane.INFORMATION_MESSAGE);
