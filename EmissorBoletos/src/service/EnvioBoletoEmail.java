@@ -45,6 +45,7 @@ public class EnvioBoletoEmail {
   public EnvioBoletoEmail(final String contaEmail, final String senha) {
     ClienteController cliCon = new ClienteController();
     boolean achouBoleto = false;
+    boolean apresentouMensagem = false;
     List<RelatorioEnvioVO> listaRelatorio = new ArrayList<>();
     int contador = 0;
     File[] listaBoletos = new File("c:/Boletos")
@@ -93,18 +94,18 @@ public class EnvioBoletoEmail {
 
     List<ClienteEnvioVO> listaClientesEnvio = cliCon
         .recuperaClientesParaEnvio();
-    try {
-      if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
-        for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
-          RelatorioEnvioVO vO = new RelatorioEnvioVO();
-          achouBoleto = false;
-          for (int i = 0; i < listaBoletos.length; ++i) {
-            if (cliEnv.getCpf().contains(
-                listaBoletos[i].getName().substring(7, 17))) {
-              achouBoleto = true;
-              if (cliEnv.getEmail() != null
-                  && !cliEnv.getEmail().trim().equals("")) {
 
+    if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
+      for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
+        RelatorioEnvioVO vO = new RelatorioEnvioVO();
+        achouBoleto = false;
+        for (int i = 0; i < listaBoletos.length; ++i) {
+          if (cliEnv.getCpf().contains(
+              listaBoletos[i].getName().substring(7, 17))) {
+            achouBoleto = true;
+            if (cliEnv.getEmail() != null
+                && !cliEnv.getEmail().trim().equals("")) {
+              try {
                 MimeMessage msg = new MimeMessage(session);
                 Address from = new InternetAddress("operacional@valem.com.br");
                 Address[] to = new InternetAddress[] { new InternetAddress(
@@ -118,16 +119,16 @@ public class EnvioBoletoEmail {
                     + "\n"
                     + " E-mail automático, não responder."
                     + "\n"
-                    + " Segue anexo seu boleto referente ao pagamento da Valem Administradora de Benefícios."
+                    + " Segue anexo seu boleto/demonstrativo referente ao pagamento da Valem Administradora de Benefícios."
                     + "\n"
-                    + " Você receberá este mesmo boleto impresso no seu endereço cadastrado para cobrança."
+                    + " Você receberá este mesmo arquivo impresso no seu endereço cadastrado para cobrança."
                     + "\n\n"
                     + " Central de Atendimento Valem:"
                     + "\n"
                     + " Whatsapp: 313249-3000 (Adicione nosso número e solicite atendimento iniciando uma conversa)"
                     + "\n"
                     + " Telefone: 31 3249-3000 (Belo Horizonte e região metropolitana) e 0800 033 6000 (Demais Localidades)"
-                    + "\n" + " E-mail: atendimento@valem.com.br" + "\n\n"
+                    + "\n" + " E-mail: atendimento@valem.com.br" + "\n"
                     + " Site: www.valem.com.br";
                 MimeBodyPart corpoMsg = new MimeBodyPart();
                 corpoMsg.setText(texto);
@@ -153,43 +154,52 @@ public class EnvioBoletoEmail {
                 vO.setEnviouEmail("Sim");
                 listaRelatorio.add(vO);
                 contador++;
-
-              } else {
-                vO.setNomeCliente(cliEnv.getNome());
-                vO.setEnviouEmail("Não");
-                vO.setMotivo("Cliente sem email cadastrado");
-                listaRelatorio.add(vO);
+              } catch (Exception e) {
+                if (!apresentouMensagem) {
+                  final String s = "A conta emissora e senha informadas não foram autenticadas."
+                      + " Ou as configurações da conta não atendem aos requisitos para envio."
+                      + " Favor REINICIAR a aplicação e enviar novamente os emails informando a conta emissora,"
+                      + " ou entre em contato com o suporte para verificação das configurações.";
+                  final String html = "<html><body style='width: %1spx'>%1s";
+                  JOptionPane.showMessageDialog(null,
+                      String.format(html, 400, s));
+                  apresentouMensagem = true;
+                } else {
+                  System.out.println("[ ERRO ] ao enviar Boleto. Cliente: "
+                      + cliEnv.getNome());
+                  e.printStackTrace();
+                }
               }
+
+            } else {
+              vO.setNomeCliente(cliEnv.getNome());
+              vO.setEnviouEmail("Não");
+              vO.setMotivo("Cliente sem email cadastrado");
+              listaRelatorio.add(vO);
             }
           }
-          if (!achouBoleto) {
-            vO.setNomeCliente(cliEnv.getNome());
-            vO.setEnviouEmail("Não");
-            vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
-            listaRelatorio.add(vO);
-          }
         }
-        Object[] botoes = { "Sim", "Não" };
-        int resposta = JOptionPane.showOptionDialog(null,
-            "Deseja baixar o relatório de Envio?", "Confirmação",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-            botoes, botoes[0]);
-        if (resposta == 0) {
-          exportarExcel("C:/Relatorios/", listaRelatorio);
+        if (!achouBoleto) {
+          vO.setNomeCliente(cliEnv.getNome());
+          vO.setEnviouEmail("Não");
+          vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
+          listaRelatorio.add(vO);
         }
-      } else {
-        JOptionPane.showMessageDialog(null,
-            "Não foram encontrados clientes aptos ao recebimento.", "",
-            JOptionPane.WARNING_MESSAGE);
       }
-    } catch (Exception e) {
-      final String s = "A conta emissora e senha informadas não foram autenticadas."
-          + " Ou as configurações da conta não atendem aos requisitos para envio."
-          + " Favor REINICIAR a aplicação e enviar novamente os emails informando a conta emissora,"
-          + " ou entre em contato com o suporte para verificação das configurações.";
-      final String html = "<html><body style='width: %1spx'>%1s";
-      JOptionPane.showMessageDialog(null, String.format(html, 400, s));
+      Object[] botoes = { "Sim", "Não" };
+      int resposta = JOptionPane.showOptionDialog(null,
+          "Deseja baixar o relatório de Envio?", "Confirmação",
+          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+          botoes, botoes[0]);
+      if (resposta == 0) {
+        exportarExcel("C:/Relatorios/", listaRelatorio);
+      }
+    } else {
+      JOptionPane.showMessageDialog(null,
+          "Não foram encontrados clientes aptos ao recebimento.", "",
+          JOptionPane.WARNING_MESSAGE);
     }
+
     JOptionPane.showMessageDialog(null, "Foram enviados: " + contador
         + " emails.", "", JOptionPane.INFORMATION_MESSAGE);
   }
