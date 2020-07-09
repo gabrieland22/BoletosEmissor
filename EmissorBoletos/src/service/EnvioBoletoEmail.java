@@ -45,7 +45,7 @@ public class EnvioBoletoEmail {
   public EnvioBoletoEmail(final String contaEmail, final String senha) {
     ClienteController cliCon = new ClienteController();
     boolean achouBoleto = false;
-    boolean apresentouMensagem = false;
+    boolean connected = false;
     List<RelatorioEnvioVO> listaRelatorio = new ArrayList<>();
     int contador = 0;
     File[] listaBoletos = new File("c:/Boletos")
@@ -79,9 +79,6 @@ public class EnvioBoletoEmail {
             // return new PasswordAuthentication("operacional1@valem.com.br",
             // "valem3013"
 
-            // return new PasswordAuthentication("operacional2@valem.com.br",
-            // "valem@1234"
-
             // return new PasswordAuthentication("operacional3@valem.com.br",
             // "valem@1234"
 
@@ -89,115 +86,119 @@ public class EnvioBoletoEmail {
           }
         });
 
+    if (testaAutenticacaoParaEnvio(session, contaEmail, senha)) {
+      connected = true;
+    } else {
+      connected = false;
+    }
+
     /** Ativa Debug para sessão */
     session.setDebug(true);
 
     List<ClienteEnvioVO> listaClientesEnvio = cliCon
         .recuperaClientesParaEnvio();
 
-    if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
-      for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
-        RelatorioEnvioVO vO = new RelatorioEnvioVO();
-        achouBoleto = false;
-        for (int i = 0; i < listaBoletos.length; ++i) {
-          if (cliEnv.getCpf().contains(
-              listaBoletos[i].getName().substring(7, 17))) {
-            achouBoleto = true;
-            if (cliEnv.getEmail() != null
-                && !cliEnv.getEmail().trim().equals("")) {
-              try {
-                MimeMessage msg = new MimeMessage(session);
-                Address from = new InternetAddress("operacional@valem.com.br");
-                Address[] to = new InternetAddress[] { new InternetAddress(
-                    cliEnv.getEmail()) };
+    if (connected) {
+      if (listaClientesEnvio != null && listaClientesEnvio.size() > 0) {
+        for (ClienteEnvioVO cliEnv : listaClientesEnvio) {
+          RelatorioEnvioVO vO = new RelatorioEnvioVO();
+          achouBoleto = false;
+          for (int i = 0; i < listaBoletos.length; ++i) {
+            if (cliEnv.getCpf().contains(
+                listaBoletos[i].getName().substring(7, 17))) {
+              achouBoleto = true;
+              if (cliEnv.getEmail() != null
+                  && !cliEnv.getEmail().trim().equals("")) {
+                try {
+                  MimeMessage msg = new MimeMessage(session);
+                  Address from = new InternetAddress("operacional@valem.com.br");
+                  Address[] to = new InternetAddress[] { new InternetAddress(
+                      cliEnv.getEmail()) };
 
-                msg.setFrom(from);
-                msg.setRecipients(Message.RecipientType.TO, to);
-                msg.setSubject("Boleto Valem");
-                String texto = " Prezado(a) "
-                    + cliEnv.getNome()
-                    + "\n"
-                    + " E-mail automático, não responder."
-                    + "\n"
-                    + " Segue anexo seu boleto/demonstrativo referente ao pagamento da Valem Administradora de Benefícios."
-                    + "\n"
-                    + " Você receberá este mesmo arquivo impresso no seu endereço cadastrado para cobrança."
-                    + "\n\n"
-                    + " Central de Atendimento Valem:"
-                    + "\n"
-                    + " Whatsapp: 313249-3000 (Adicione nosso número e solicite atendimento iniciando uma conversa)"
-                    + "\n"
-                    + " Telefone: 31 3249-3000 (Belo Horizonte e região metropolitana) e 0800 033 6000 (Demais Localidades)"
-                    + "\n" + " E-mail: atendimento@valem.com.br" + "\n"
-                    + " Site: www.valem.com.br";
-                MimeBodyPart corpoMsg = new MimeBodyPart();
-                corpoMsg.setText(texto);
+                  msg.setFrom(from);
+                  msg.setRecipients(Message.RecipientType.TO, to);
+                  msg.setSubject("Boleto Valem");
+                  String texto = " Prezado(a) "
+                      + cliEnv.getNome()
+                      + "\n"
+                      + " E-mail automático, não responder."
+                      + "\n"
+                      + " Segue anexo seu boleto/demonstrativo referente ao pagamento da Valem Administradora de Benefícios."
+                      + "\n"
+                      + " Você receberá este mesmo arquivo impresso no seu endereço cadastrado para cobrança."
+                      + "\n\n"
+                      + " Central de Atendimento Valem:"
+                      + "\n"
+                      + " Whatsapp: 313249-3000 (Adicione nosso número e solicite atendimento iniciando uma conversa)"
+                      + "\n"
+                      + " Telefone: 31 3249-3000 (Belo Horizonte e região metropolitana) e 0800 033 6000 (Demais Localidades)"
+                      + "\n" + " E-mail: atendimento@valem.com.br" + "\n"
+                      + " Site: www.valem.com.br";
+                  MimeBodyPart corpoMsg = new MimeBodyPart();
+                  corpoMsg.setText(texto);
 
-                // Anexa o boleto por cliente.
+                  // Anexa o boleto por cliente.
 
-                MimeBodyPart anexo = new MimeBodyPart();
-                DataSource ds = new FileDataSource(sourceBoletos
-                    + listaBoletos[i].getName());
-                anexo.setDataHandler(new DataHandler(ds));
-                anexo.setFileName("BoletoPagamento.pdf");
+                  MimeBodyPart anexo = new MimeBodyPart();
+                  DataSource ds = new FileDataSource(sourceBoletos
+                      + listaBoletos[i].getName());
+                  anexo.setDataHandler(new DataHandler(ds));
+                  anexo.setFileName("BoletoPagamento.pdf");
 
-                // cria a Multipart
-                Multipart mp = new MimeMultipart();
-                mp.addBodyPart(corpoMsg);
-                mp.addBodyPart(anexo);
+                  // cria a Multipart
+                  Multipart mp = new MimeMultipart();
+                  mp.addBodyPart(corpoMsg);
+                  mp.addBodyPart(anexo);
 
-                // adiciona a Multipart na mensagem
-                msg.setContent(mp);
-                msg.setSentDate(new java.util.Date());
-                Transport.send(msg);
-                vO.setNomeCliente(cliEnv.getNome());
-                vO.setEnviouEmail("Sim");
-                listaRelatorio.add(vO);
-                contador++;
-              } catch (Exception e) {
-                if (!apresentouMensagem) {
-                  final String s = "A conta emissora e senha informadas não foram autenticadas."
-                      + " Ou as configurações da conta não atendem aos requisitos para envio."
-                      + " Favor REINICIAR a aplicação e enviar novamente os emails informando a conta emissora,"
-                      + " ou entre em contato com o suporte para verificação das configurações.";
-                  final String html = "<html><body style='width: %1spx'>%1s";
-                  JOptionPane.showMessageDialog(null,
-                      String.format(html, 400, s));
-                  apresentouMensagem = true;
-                } else {
+                  // adiciona a Multipart na mensagem
+                  msg.setContent(mp);
+                  msg.setSentDate(new java.util.Date());
+                  Transport.send(msg);
+                  vO.setNomeCliente(cliEnv.getNome());
+                  vO.setEnviouEmail("Sim");
+                  listaRelatorio.add(vO);
+                  contador++;
+                } catch (Exception e) {
                   System.out.println("[ ERRO ] ao enviar Boleto. Cliente: "
                       + cliEnv.getNome());
                   e.printStackTrace();
                 }
-              }
 
-            } else {
-              vO.setNomeCliente(cliEnv.getNome());
-              vO.setEnviouEmail("Não");
-              vO.setMotivo("Cliente sem email cadastrado");
-              listaRelatorio.add(vO);
+              } else {
+                vO.setNomeCliente(cliEnv.getNome());
+                vO.setEnviouEmail("Não");
+                vO.setMotivo("Cliente sem email cadastrado");
+                listaRelatorio.add(vO);
+              }
             }
           }
+          if (!achouBoleto) {
+            vO.setNomeCliente(cliEnv.getNome());
+            vO.setEnviouEmail("Não");
+            vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
+            listaRelatorio.add(vO);
+          }
         }
-        if (!achouBoleto) {
-          vO.setNomeCliente(cliEnv.getNome());
-          vO.setEnviouEmail("Não");
-          vO.setMotivo("Não foi encontrado boleto com o CPF do cliente");
-          listaRelatorio.add(vO);
+        Object[] botoes = { "Sim", "Não" };
+        int resposta = JOptionPane.showOptionDialog(null,
+            "Deseja baixar o relatório de Envio?", "Confirmação",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+            botoes, botoes[0]);
+        if (resposta == 0) {
+          exportarExcel("C:/Relatorios/", listaRelatorio);
         }
-      }
-      Object[] botoes = { "Sim", "Não" };
-      int resposta = JOptionPane.showOptionDialog(null,
-          "Deseja baixar o relatório de Envio?", "Confirmação",
-          JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-          botoes, botoes[0]);
-      if (resposta == 0) {
-        exportarExcel("C:/Relatorios/", listaRelatorio);
+      } else {
+        JOptionPane.showMessageDialog(null,
+            "Não foram encontrados clientes aptos ao recebimento.", "",
+            JOptionPane.WARNING_MESSAGE);
       }
     } else {
-      JOptionPane.showMessageDialog(null,
-          "Não foram encontrados clientes aptos ao recebimento.", "",
-          JOptionPane.WARNING_MESSAGE);
+      final String s = "A conta emissora e senha informadas não foram autenticadas."
+          + " Ou as configurações da conta não atendem aos requisitos para envio."
+          + " Favor REINICIAR a aplicação e enviar novamente os emails informando a conta emissora,"
+          + " ou entre em contato com o suporte para verificação das configurações.";
+      final String html = "<html><body style='width: %1spx'>%1s";
+      JOptionPane.showMessageDialog(null, String.format(html, 400, s));
     }
 
     JOptionPane.showMessageDialog(null, "Foram enviados: " + contador
@@ -275,5 +276,17 @@ public class EnvioBoletoEmail {
       System.out.println("Arquivo bichado ..." + e.getMessage());
     }
     return excel;
+  }
+
+  private Boolean testaAutenticacaoParaEnvio(Session session, String user, String password) {
+    boolean autenticou = false;
+    try {
+      // boolean isConnected = session.getTransport("smtp").isConnected();
+      session.getTransport("smtp").connect(user, password);
+      autenticou = true;
+    } catch (Exception e) {
+      autenticou = false;
+    }
+    return autenticou;
   }
 }
